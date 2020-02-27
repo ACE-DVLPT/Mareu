@@ -1,8 +1,10 @@
-package fr.ace.mareu;
+package fr.ace.mareu.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import fr.ace.mareu.R;
 
 public class MainActivity extends AppCompatActivity {
 

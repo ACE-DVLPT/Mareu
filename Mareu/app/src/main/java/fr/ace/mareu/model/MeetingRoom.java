@@ -1,13 +1,11 @@
 package fr.ace.mareu.model;
 
-import android.graphics.Color;
-
 public class MeetingRoom {
 
     private String mName;
-    private Color mColor;
+    private String mColor;
 
-    public MeetingRoom(String name, Color color) {
+    public MeetingRoom(String name, String color) {
         mName = name;
         mColor = color;
     }
@@ -20,11 +18,11 @@ public class MeetingRoom {
         mName = name;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return mColor;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         mColor = color;
     }
 }

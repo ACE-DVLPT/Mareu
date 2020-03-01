@@ -1,20 +1,18 @@
 package fr.ace.mareu.model;
 
-import android.provider.ContactsContract;
-
 public class Member {
 
-    private ContactsContract.CommonDataKinds.Email mEmail;
+    private String mEmail;
 
-    public Member(ContactsContract.CommonDataKinds.Email email) {
+    public Member(String email) {
         mEmail = email;
     }
 
-    public ContactsContract.CommonDataKinds.Email getEmail() {
+    public String getEmail() {
         return mEmail;
     }
 
-    public void setEmail(ContactsContract.CommonDataKinds.Email email) {
+    public void setEmail(String email) {
         mEmail = email;
     }
 }

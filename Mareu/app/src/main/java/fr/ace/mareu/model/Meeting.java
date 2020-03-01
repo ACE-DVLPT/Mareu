@@ -1,18 +1,16 @@
 package fr.ace.mareu.model;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Meeting {
 
     private String mTopic;
     private String mPlace;
-    private Date mDate;
-    private Time mHour;
+    private String mDate;
+    private String mHour;
     private ArrayList<Member> mMembers;
 
-    public Meeting(String topic, String place, Date date, Time hour, ArrayList<Member> members) {
+    public Meeting(String topic, String place, String date, String hour, ArrayList<Member> members) {
         mTopic = topic;
         mPlace = place;
         mDate = date;
@@ -36,19 +34,19 @@ public class Meeting {
         mPlace = place;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         mDate = date;
     }
 
-    public Time getHour() {
+    public String getHour() {
         return mHour;
     }
 
-    public void setHour(Time hour) {
+    public void setHour(String hour) {
         mHour = hour;
     }
 

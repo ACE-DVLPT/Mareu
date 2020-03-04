@@ -35,21 +35,18 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion A",
                     "Peach",
-                    "01/01/2021",
                     "14h00",
                     fakeMembersReminderList
             ),
             new Meeting(
                     "Réunion B",
                             "Mario",
-                            "01/01/2021",
                             "16h00",
                     fakeMembersReminderList
             ),
             new Meeting(
                     "Réunion C",
                     "Luigi",
-                    "01/01/2021",
                     "19h00",
                     fakeMembersReminderList
             )

@@ -6,14 +6,12 @@ public class Meeting {
 
     private String mTopic;
     private String mPlace;
-    private String mDate;
     private String mHour;
     private ArrayList<Member> mMembers;
 
-    public Meeting(String topic, String place, String date, String hour, ArrayList<Member> members) {
+    public Meeting(String topic, String place, String hour, ArrayList<Member> members) {
         mTopic = topic;
         mPlace = place;
-        mDate = date;
         mHour = hour;
         mMembers = members;
     }
@@ -32,14 +30,6 @@ public class Meeting {
 
     public void setPlace(String place) {
         mPlace = place;
-    }
-
-    public String getDate() {
-        return mDate;
-    }
-
-    public void setDate(String date) {
-        mDate = date;
     }
 
     public String getHour() {

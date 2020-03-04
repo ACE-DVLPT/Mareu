@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import fr.ace.mareu.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MeetingsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

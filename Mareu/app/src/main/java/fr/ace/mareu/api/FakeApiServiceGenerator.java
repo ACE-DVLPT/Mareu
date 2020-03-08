@@ -40,8 +40,8 @@ public abstract class FakeApiServiceGenerator {
             ),
             new Meeting(
                     "Réunion B",
-                            "Mario",
-                            "16h00",
+                    "Mario",
+                    "16h00",
                     fakeMembersReminderList
             ),
             new Meeting(

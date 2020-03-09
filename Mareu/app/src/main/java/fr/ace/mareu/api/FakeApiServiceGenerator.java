@@ -1,7 +1,10 @@
 package fr.ace.mareu.api;
 
+import android.provider.ContactsContract;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
@@ -9,7 +12,7 @@ import fr.ace.mareu.model.Member;
 
 public abstract class FakeApiServiceGenerator {
 
-    public static ArrayList<Member> fakeMembersReminderList = (ArrayList<Member>) Arrays.asList(
+    public static List<Member> fakeMembersReminderList = Arrays.asList(
             new Member("maxime@lamzone.com"),
             new Member("alex@lamzone.com"),
             new Member("paul@lamzone.com"),
@@ -18,7 +21,7 @@ public abstract class FakeApiServiceGenerator {
             new Member("luc@lamzone.com")
     );
 
-    public static ArrayList<MeetingRoom> fakeMeetingRoomsList = (ArrayList<MeetingRoom>) Arrays.asList(
+    public static List<MeetingRoom> fakeMeetingRoomsList = Arrays.asList(
             new MeetingRoom("Peach", "blue"),
             new MeetingRoom("Mario", "blue"),
             new MeetingRoom("Luigi", "blue"),
@@ -31,24 +34,36 @@ public abstract class FakeApiServiceGenerator {
             new MeetingRoom("Koopa", "blue")
     );
 
-    public static ArrayList<Meeting> fakeMeetingsList = (ArrayList<Meeting>) Arrays.asList(
+    public static List<Meeting> fakeMeetingsList =  Arrays.asList(
             new Meeting(
                     "Réunion A",
                     "Peach",
                     "14h00",
-                    fakeMembersReminderList
+                    generateMembersReminderList()
             ),
             new Meeting(
                     "Réunion B",
                     "Mario",
                     "16h00",
-                    fakeMembersReminderList
+                    generateMembersReminderList()
             ),
             new Meeting(
                     "Réunion C",
                     "Luigi",
                     "19h00",
-                    fakeMembersReminderList
+                    generateMembersReminderList()
             )
     );
+
+    public static ArrayList<Member> generateMembersReminderList() {
+        return new ArrayList<>(fakeMembersReminderList);
+    }
+
+    public static ArrayList<MeetingRoom> generateMeetingRoomsList() {
+        return new ArrayList<>(fakeMeetingRoomsList);
+    }
+
+    public static ArrayList<Meeting> generateMeetingsList() {
+        return new ArrayList<>(fakeMeetingsList);
+    }
 }

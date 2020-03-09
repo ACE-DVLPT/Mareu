@@ -8,9 +8,9 @@ import fr.ace.mareu.model.Member;
 
 public class FakeApiService implements ApiService {
 
-    private ArrayList<Meeting> mMeetingsList = FakeApiServiceGenerator.fakeMeetingsList;
-    private ArrayList<Member> mMembersReminderList = FakeApiServiceGenerator.fakeMembersReminderList;
-    private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.fakeMeetingRoomsList;
+    private ArrayList<Meeting> mMeetingsList = FakeApiServiceGenerator.generateMeetingsList();
+    private ArrayList<Member> mMembersReminderList = FakeApiServiceGenerator.generateMembersReminderList();
+    private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.generateMeetingRoomsList();
 
     @Override
     public ArrayList<Meeting> getMeetingsList() {

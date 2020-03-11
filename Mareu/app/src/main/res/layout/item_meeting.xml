@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/fragment_meeting_colored_circle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -21,31 +21,36 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/fragment_meeting_text_wrap"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="60dp"
         android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/fragment_meeting_colored_circle"
         app:layout_constraintBottom_toBottomOf="@+id/fragment_meeting_colored_circle"
         app:layout_constraintTop_toTopOf="@+id/fragment_meeting_colored_circle"
-        tools:ignore="MissingConstraints"
         >
 
         <TextView
             android:id="@+id/fragment_meeting_txt_line1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="Réunion A - 14h00 - Peach"
+            android:textColor="#000000"
+            android:textSize="20dp"
             android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
 
         <TextView
             android:id="@+id/fragment_meeting_txt_line2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:text="maxime@lamzone.com"
+            android:textSize="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

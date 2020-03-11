@@ -7,13 +7,14 @@ public class Meeting {
     private String mTopic;
     private String mPlace;
     private String mHour;
-    private ArrayList<Member> mMembers;
+    private ArrayList<Member> mMembersByArrayList;
+    private String mMembersByString;
 
-    public Meeting(String topic, String place, String hour, ArrayList<Member> members) {
+    public Meeting(String topic, String place, String hour, ArrayList<Member> membersList) {
         mTopic = topic;
         mPlace = place;
         mHour = hour;
-        mMembers = members;
+        mMembersByArrayList = membersList;
     }
 
     public String getTopic() {
@@ -40,11 +41,24 @@ public class Meeting {
         mHour = hour;
     }
 
-    public ArrayList<Member> getMembers() {
-        return mMembers;
+    public ArrayList<Member> getMembersByArrayList() {
+        return mMembersByArrayList;
     }
 
-    public void setMembers(ArrayList<Member> members) {
-        mMembers = members;
+    public String getMembersByString() {
+        StringBuffer buffer = new StringBuffer();
+        for (int i=0 ; i < mMembersByArrayList.size() ; i++){
+            if ((i == (mMembersByArrayList.size())-1)) {
+                buffer.append(mMembersByArrayList.get(i).getEmail());
+            } else {
+                buffer.append(mMembersByArrayList.get(i).getEmail() + ", ");
+            }
+        }
+        mMembersByString = buffer.toString();
+        return mMembersByString;
+    }
+
+    public void setMembersByArrayList(ArrayList<Member> membersByArrayList) {
+        mMembersByArrayList = membersByArrayList;
     }
 }

@@ -35,23 +35,33 @@ public abstract class FakeApiServiceGenerator {
     );
 
     public static List<Meeting> fakeMeetingsList =  Arrays.asList(
+
             new Meeting(
                     "Réunion A",
                     "Peach",
                     "14h00",
-                    generateMembersReminderList()
+                    new ArrayList<Member>(Arrays.asList(
+                            new Member("maxime@lamzone.com"),
+                            new Member("alex@lamzone.com")
+                    ))
             ),
             new Meeting(
                     "Réunion B",
                     "Mario",
                     "16h00",
-                    generateMembersReminderList()
+                    new ArrayList<Member>(Arrays.asList(
+                            new Member("paul@lamzone.com"),
+                            new Member("viviane@lamzone.com")
+                    ))
             ),
             new Meeting(
                     "Réunion C",
                     "Luigi",
                     "19h00",
-                    generateMembersReminderList()
+                    new ArrayList<Member>(Arrays.asList(
+                            new Member("amandine@lamzone.com"),
+                            new Member("luc@lamzone.com")
+                    ))
             )
     );
 

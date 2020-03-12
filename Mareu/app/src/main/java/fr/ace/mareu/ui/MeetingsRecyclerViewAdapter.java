@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
 
-public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecyclerViewAdapter.ViewHolder> {
+public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRecyclerViewAdapter.ViewHolder> {
 
     // Adapter
     private final ArrayList<Meeting> mMeetingsList;
 
-    public MeetingRecyclerViewAdapter(ArrayList<Meeting> meetingsList) {
+    public MeetingsRecyclerViewAdapter(ArrayList<Meeting> meetingsList) {
         mMeetingsList = meetingsList;
     }
 

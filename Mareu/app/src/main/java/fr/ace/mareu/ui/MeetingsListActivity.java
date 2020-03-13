@@ -47,10 +47,10 @@ public class MeetingsListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        displayMessageIfEmptyRecyclerView();
+        displayMessageIfRecyclerViewIsEmpty();
     }
 
-    public void displayMessageIfEmptyRecyclerView() {
+    public void displayMessageIfRecyclerViewIsEmpty() {
         if (mMeetingsList.isEmpty()){
             mTextViewEmptyView.setVisibility(View.VISIBLE);
         }

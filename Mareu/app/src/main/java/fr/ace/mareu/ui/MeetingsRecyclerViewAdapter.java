@@ -48,13 +48,13 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.fragment_meeting_colored_circle)
+        @BindView(R.id.item_meeting_colored_circle)
         ImageView mImageViewColoredCircle;
-        @BindView(R.id.fragment_meeting_delete_button)
+        @BindView(R.id.item_meeting_delete_button)
         ImageView mImageViewDeleteButton;
-        @BindView(R.id.fragment_meeting_txt_line1)
+        @BindView(R.id.item_meeting_txt_line1)
         TextView mTextViewLine1;
-        @BindView(R.id.fragment_meeting_txt_line2)
+        @BindView(R.id.item_meeting_txt_line2)
         TextView mTextViewLine2;
 
         public ViewHolder(View itemView) {

@@ -54,25 +54,27 @@ public class MeetingsListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        displayMessageIfRecyclerViewIsEmpty();
+        refreshRecycleViewAdapter(mAdapter);
 
     }
 
     public void displayMessageIfRecyclerViewIsEmpty() {
         if (mMeetingsList.isEmpty()){
             mTextViewEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mTextViewEmptyView.setVisibility(View.INVISIBLE);
         }
     }
 
     public void refreshRecycleViewAdapter(RecyclerView.Adapter adapter) {
         adapter.notifyDataSetChanged();
+        displayMessageIfRecyclerViewIsEmpty();
     }
 
     @Subscribe
     public void onDeleteMeetingEvent(DeleteMeetingEvent event){
         mMeetingsList.remove(event.mMeeting);
         refreshRecycleViewAdapter(mAdapter);
-        displayMessageIfRecyclerViewIsEmpty();
     }
 
 }

@@ -32,9 +32,15 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
+    // Materials
     implementation 'com.google.android.material:material:1.1.0'
 
+    // Tests
     testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // EventBus
+    implementation 'org.greenrobot:eventbus:3.2.0'
 }

@@ -1,4 +1,4 @@
-package fr.ace.mareu.di;
+package fr.ace.mareu.utils.di;
 
 import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.api.FakeApiService;

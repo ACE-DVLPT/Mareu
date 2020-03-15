@@ -1,4 +1,4 @@
-package fr.ace.mareu.ui;
+package fr.ace.mareu.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
+import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRecyclerViewAdapter.ViewHolder> {
 
@@ -35,9 +38,17 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Meeting meeting = mMeetingsList.get(position);
+        final Meeting meeting = mMeetingsList.get(position);
         holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getHour() + " - " + meeting.getPlace());
         holder.mTextViewLine2.setText(meeting.getMembersByString());
+
+        // Listeners
+        holder.mImageViewDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
+            }
+        });
     }
 
     @Override

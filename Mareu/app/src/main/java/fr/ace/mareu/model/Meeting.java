@@ -6,7 +6,9 @@ public class Meeting {
 
     private String mTopic;
     private String mPlace;
+    private String mDate;
     private String mHour;
+    private String mDuration;
     private ArrayList<Member> mMembersByArrayList;
     private String mMembersByString;
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,10 +29,12 @@ public class MeetingsListActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_meetings_list_btn_add_meeting)
     FloatingActionButton mBtnAddMeeting;
-    @BindView(R.id.activity_meetings_list_recycler_view)
+    @BindView(R.id.recyclerview_meetings_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_meetings_list_txt_empty_view)
     TextView mTextViewEmptyView;
+    @BindView(R.id.activity_meetings_list_toolbar)
+    Toolbar mToolbar;
 
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
@@ -42,8 +45,11 @@ public class MeetingsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings_list);
+
         ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
         EventBus.getDefault().register(this);
+
 
         mMeetingsList = new ArrayList<>(DI.getApiService().getMeetingsList());
 

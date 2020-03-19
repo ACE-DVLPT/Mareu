@@ -1,5 +1,7 @@
 package fr.ace.mareu.model;
 
+import androidx.annotation.NonNull;
+
 public class MeetingRoom {
 
     private String mName;
@@ -24,5 +26,11 @@ public class MeetingRoom {
 
     public void setColor(String color) {
         mColor = color;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return mName;
     }
 }

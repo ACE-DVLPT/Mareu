@@ -1,5 +1,9 @@
 package fr.ace.mareu.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 
 public class Meeting {
@@ -9,14 +13,36 @@ public class Meeting {
     private String mDate;
     private String mHour;
     private String mDuration;
-    private ArrayList<Member> mMembersByArrayList;
+    private ArrayList<String> mMembersByArrayList;
     private String mMembersByString;
 
-    public Meeting(String topic, String place, String hour, ArrayList<Member> membersList) {
+    public Meeting(String topic, String place, String date, String hour, String duration, ArrayList<String> membersByArrayList) {
         mTopic = topic;
         mPlace = place;
+        mDate = date;
         mHour = hour;
-        mMembersByArrayList = membersList;
+        mDuration = duration;
+        mMembersByArrayList = membersByArrayList;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    public String getDuration() {
+        return mDuration;
+    }
+
+    public void setDuration(String duration) {
+        mDuration = duration;
+    }
+
+    public void setMembersByString(String membersByString) {
+        mMembersByString = membersByString;
     }
 
     public String getTopic() {
@@ -43,24 +69,17 @@ public class Meeting {
         mHour = hour;
     }
 
-    public ArrayList<Member> getMembersByArrayList() {
+    public ArrayList<String> getMembersByArrayList() {
         return mMembersByArrayList;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getMembersByString() {
-        StringBuffer buffer = new StringBuffer();
-        for (int i=0 ; i < mMembersByArrayList.size() ; i++){
-            if ((i == (mMembersByArrayList.size())-1)) {
-                buffer.append(mMembersByArrayList.get(i).getEmail());
-            } else {
-                buffer.append(mMembersByArrayList.get(i).getEmail() + ", ");
-            }
-        }
-        mMembersByString = buffer.toString();
+        mMembersByString = String.join(", ",mMembersByArrayList);
         return mMembersByString;
     }
 
-    public void setMembersByArrayList(ArrayList<Member> membersByArrayList) {
+    public void setMembersByArrayList(ArrayList<String> membersByArrayList) {
         mMembersByArrayList = membersByArrayList;
     }
 }

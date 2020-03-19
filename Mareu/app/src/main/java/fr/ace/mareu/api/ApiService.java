@@ -4,17 +4,16 @@ import java.util.ArrayList;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
-import fr.ace.mareu.model.Member;
 
 public interface ApiService {
 
 ArrayList<Meeting> getMeetingsList();
 
-ArrayList<Member> getMembersReminderList();
+ArrayList<String> getMembersReminderList();
 
 ArrayList<MeetingRoom> getMeetingRoomList();
 
-void addMemberToMembersReminderList(Member member);
+void addMemberToMembersReminderList(String member);
 
 void addMeeting(Meeting meeting);
 

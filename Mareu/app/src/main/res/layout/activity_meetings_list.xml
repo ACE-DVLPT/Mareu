@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/activity_meetings_list_toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/custom_toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

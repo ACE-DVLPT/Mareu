@@ -39,8 +39,9 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Meeting meeting = mMeetingsList.get(position);
-        holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getHour() + " - " + meeting.getPlace());
-        holder.mTextViewLine2.setText(meeting.getMembersByString());
+        holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace() +  " (" + meeting.getDuration() + ")");
+        holder.mTextViewLine2.setText(meeting.getDate() + " - " + meeting.getHour() );
+        holder.mTextViewLine3.setText(meeting.getMembersByString());
 
         // Listeners
         holder.mImageViewDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,8 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
         TextView mTextViewLine1;
         @BindView(R.id.item_meeting_txt_line2)
         TextView mTextViewLine2;
+        @BindView(R.id.item_meeting_txt_line3)
+        TextView mTextViewLine3;
 
         public ViewHolder(View itemView) {
             super(itemView);

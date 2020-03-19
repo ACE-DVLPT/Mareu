@@ -1,24 +1,21 @@
 package fr.ace.mareu.api;
 
-import android.provider.ContactsContract;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
-import fr.ace.mareu.model.Member;
 
 public abstract class FakeApiServiceGenerator {
 
-    public static List<Member> fakeMembersReminderList = Arrays.asList(
-            new Member("maxime@lamzone.com"),
-            new Member("alex@lamzone.com"),
-            new Member("paul@lamzone.com"),
-            new Member("viviane@lamzone.com"),
-            new Member("amandine@lamzone.com"),
-            new Member("luc@lamzone.com")
+    public static List<String> fakeMembersReminderList = Arrays.asList(
+            ("maxime@lamzone.com"),
+            ("alex@lamzone.com"),
+            ("paul@lamzone.com"),
+            ("viviane@lamzone.com"),
+            ("amandine@lamzone.com"),
+            ("luc@lamzone.com")
     );
 
     public static List<MeetingRoom> fakeMeetingRoomsList = Arrays.asList(
@@ -39,33 +36,39 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion A",
                     "Peach",
-                    "14h00",
-                    new ArrayList<Member>(Arrays.asList(
-                            new Member("maxime@lamzone.com"),
-                            new Member("alex@lamzone.com")
+                    "01/02/2021",
+                    "14:00",
+                    "1h",
+                    new ArrayList<>(Arrays.asList(
+                            ("maxime@lamzone.com"),
+                            ("alex@lamzone.com")
                     ))
             ),
             new Meeting(
                     "Réunion B",
                     "Mario",
-                    "16h00",
-                    new ArrayList<Member>(Arrays.asList(
-                            new Member("paul@lamzone.com"),
-                            new Member("viviane@lamzone.com")
+                    "01/03/2021",
+                    "16:00",
+                    "1h",
+                    new ArrayList<>(Arrays.asList(
+                            ("paul@lamzone.com"),
+                            ("viviane@lamzone.com")
                     ))
             ),
             new Meeting(
                     "Réunion C",
                     "Luigi",
-                    "19h00",
-                    new ArrayList<Member>(Arrays.asList(
-                            new Member("amandine@lamzone.com"),
-                            new Member("luc@lamzone.com")
+                    "01/04/2021",
+                    "19:00",
+                    "1h30",
+                    new ArrayList<>(Arrays.asList(
+                            ("amandine@lamzone.com"),
+                            ("luc@lamzone.com")
                     ))
             )
     );
 
-    public static ArrayList<Member> generateMembersReminderList() {
+    public static ArrayList<String> generateMembersReminderList() {
         return new ArrayList<>(fakeMembersReminderList);
     }
 

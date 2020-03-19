@@ -15,7 +15,6 @@ import java.util.Arrays;
 
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.Member;
 import fr.ace.mareu.utils.DeleteViewAction;
 import fr.ace.mareu.utils.RecyclerViewItemCountViewAssertion;
 
@@ -55,7 +54,7 @@ public class MeetingsListActivityTest {
                 @Override
                 public void run() {
 
-                    mActivityTestRule.getActivity().refreshRecycleViewAdapter(mActivityTestRule.getActivity().mAdapter);
+                    mActivityTestRule.getActivity().initList();
 
                 }
             });
@@ -84,23 +83,25 @@ public class MeetingsListActivityTest {
         Meeting meeting = new Meeting(
                 "topic",
                 "place",
-                "00h00",
-                new ArrayList<Member>(Arrays.asList(
-                        new Member("email")
+                "01/01/2020",
+                "20h00",
+                "1h",
+                new ArrayList<>(Arrays.asList(
+                        ("email")
                 ))
         );
 
         mActivityTestRule.getActivity().mMeetingsList.add(meeting);
         refreshRecycleViewAdapter();
 
-        onView(allOf(ViewMatchers.withId(R.id.activity_meetings_list_recycler_view), isDisplayed()))
+        onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
                 .check(RecyclerViewItemCountViewAssertion.withItemCount(1));
 
-        onView(allOf(ViewMatchers.withId(R.id.activity_meetings_list_recycler_view), isDisplayed()))
+        onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
 
-        onView(allOf(ViewMatchers.withId(R.id.activity_meetings_list_recycler_view), isDisplayed()))
-                .check(RecyclerViewItemCountViewAssertion.withItemCount(0));
+        onView(withId(R.id.activity_meetings_list_txt_empty_view))
+                .check(matches(withText("Aucune réunion planifiée")));
 
     }
 

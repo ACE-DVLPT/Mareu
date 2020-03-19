@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
-import fr.ace.mareu.model.Member;
 
 public class FakeApiService implements ApiService {
 
     private ArrayList<Meeting> mMeetingsList = FakeApiServiceGenerator.generateMeetingsList();
-    private ArrayList<Member> mMembersReminderList = FakeApiServiceGenerator.generateMembersReminderList();
+    private ArrayList<String> mMembersReminderList = FakeApiServiceGenerator.generateMembersReminderList();
     private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.generateMeetingRoomsList();
 
     @Override
@@ -18,7 +17,7 @@ public class FakeApiService implements ApiService {
     }
 
     @Override
-    public ArrayList<Member> getMembersReminderList() {
+    public ArrayList<String> getMembersReminderList() {
         return mMembersReminderList;
     }
 
@@ -28,7 +27,7 @@ public class FakeApiService implements ApiService {
     }
 
     @Override
-    public void addMemberToMembersReminderList(Member member) {
+    public void addMemberToMembersReminderList(String member) {
         mMembersReminderList.add(member);
     }
 

@@ -99,6 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Date"
+                    android:clickable="true"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="16dp"
@@ -121,6 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Heure"
+                    android:clickable="true"
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="16dp"
@@ -232,32 +234,32 @@
                 android:layout_height="wrap_content"
                 >
 
-                    <Button
-                        android:id="@+id/activity_meeting_creator_button_cancellation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Annuler"
-                        app:layout_constraintEnd_toStartOf="@+id/activity_meeting_creator_button_validation"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:elevation="4dp"
-                        android:layout_margin="16dp"
-                        android:background="@drawable/background_rounded_corners"
-                        />
+                <Button
+                    android:id="@+id/activity_meeting_creator_button_cancellation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Annuler"
+                    app:layout_constraintEnd_toStartOf="@+id/activity_meeting_creator_button_validation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:elevation="4dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/background_rounded_corners"
+                    />
 
-                    <Button
-                        android:id="@+id/activity_meeting_creator_button_validation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Valider"
-                        app:layout_constraintStart_toEndOf="@+id/activity_meeting_creator_button_cancellation"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:elevation="4dp"
-                        android:background="@drawable/background_rounded_corners"
-                        />
+                <Button
+                    android:id="@+id/activity_meeting_creator_button_validation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valider"
+                    app:layout_constraintStart_toEndOf="@+id/activity_meeting_creator_button_cancellation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:elevation="4dp"
+                    android:background="@drawable/background_rounded_corners"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

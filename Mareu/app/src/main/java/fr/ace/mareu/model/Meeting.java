@@ -1,9 +1,5 @@
 package fr.ace.mareu.model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.ArrayList;
 
 public class Meeting {
@@ -14,7 +10,6 @@ public class Meeting {
     private String mHour;
     private String mDuration;
     private ArrayList<String> mMembersByArrayList;
-    private String mMembersByString;
 
     public Meeting(String topic, String place, String date, String hour, String duration, ArrayList<String> membersByArrayList) {
         mTopic = topic;
@@ -39,10 +34,6 @@ public class Meeting {
 
     public void setDuration(String duration) {
         mDuration = duration;
-    }
-
-    public void setMembersByString(String membersByString) {
-        mMembersByString = membersByString;
     }
 
     public String getTopic() {
@@ -71,12 +62,6 @@ public class Meeting {
 
     public ArrayList<String> getMembersByArrayList() {
         return mMembersByArrayList;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String getMembersByString() {
-        mMembersByString = String.join(", ",mMembersByArrayList);
-        return mMembersByString;
     }
 
     public void setMembersByArrayList(ArrayList<String> membersByArrayList) {

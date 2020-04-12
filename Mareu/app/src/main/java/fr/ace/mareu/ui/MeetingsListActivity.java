@@ -17,8 +17,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import fr.ace.mareu.R;
 import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.utils.di.DI;
@@ -28,13 +26,9 @@ import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
 public class MeetingsListActivity extends AppCompatActivity {
 
-    @BindView(R.id.activity_meetings_list_btn_add_meeting)
     FloatingActionButton mBtnAddMeeting;
-    @BindView(R.id.recyclerview_meetings_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.activity_meetings_list_txt_empty_view)
     TextView mTextViewEmptyView;
-    @BindView(R.id.activity_meetings_list_toolbar)
     Toolbar mToolbar;
 
     RecyclerView.Adapter mAdapter;
@@ -49,7 +43,11 @@ public class MeetingsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings_list);
 
-        ButterKnife.bind(this);
+        mBtnAddMeeting = findViewById(R.id.activity_meetings_list_btn_add_meeting);
+        mRecyclerView = findViewById(R.id.recyclerview_meetings_list);
+        mTextViewEmptyView = findViewById(R.id.activity_meetings_list_txt_empty_view);
+        mToolbar = findViewById(R.id.activity_meetings_list_toolbar);
+
         setSupportActionBar(mToolbar);
 
         mApiService = DI.getApiService();

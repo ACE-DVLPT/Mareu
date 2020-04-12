@@ -5,19 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,8 +36,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import fr.ace.mareu.R;
 import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.model.Meeting;
@@ -38,11 +44,12 @@ import fr.ace.mareu.ui.fragments.DateDialogFragment;
 import fr.ace.mareu.ui.fragments.DurationDialogFragment;
 import fr.ace.mareu.ui.fragments.HourDialogFragment;
 import fr.ace.mareu.utils.di.DI;
+import fr.ace.mareu.utils.di.CustomTokenizer;
 import fr.ace.mareu.utils.events.AddMeetingEvent;
 
 public class MeetingCreatorActivity
         extends AppCompatActivity
-        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener {
 
     private ApiService mApiService;
     private Meeting mMeeting;
@@ -50,30 +57,34 @@ public class MeetingCreatorActivity
     private List<String> mMemberReminderList;
     int timePickerKey = 0;
 
-    @BindView(R.id.activity_meeting_creator_button_toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.activity_meeting_creator_editText_topic)
     EditText mEditTextTopic;
-    @BindView(R.id.activity_meeting_creator_spinner_place)
     Spinner mSpinnerPlace;
-    @BindView(R.id.activity_meeting_creator_text_view_date)
     TextView mTextViewDate;
-    @BindView(R.id.activity_meeting_creator_text_view_hour)
     TextView mTextViewHour;
-    @BindView(R.id.activity_meeting_creator_text_view_duration)
     TextView mTextViewDuration;
-    @BindView(R.id.activity_meeting_creator_edit_text_member)
-    MultiAutoCompleteTextView mAutoCompleteTextViewMembers;
-    @BindView(R.id.activity_meeting_creator_button_cancellation)
+    MultiAutoCompleteTextView mMultiAutoCompleteTextViewMembers;
     Button mButtonCancellation;
-    @BindView(R.id.activity_meeting_creator_button_validation)
     Button mButtonValidation;
+    ImageButton mImageButtonAddEmail;
+    ChipGroup mChipGroupEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_creator);
-        ButterKnife.bind(this);
+
+        mToolbar = findViewById(R.id.activity_meeting_creator_button_toolbar);
+        mEditTextTopic = findViewById(R.id.activity_meeting_creator_editText_topic);
+        mSpinnerPlace = findViewById(R.id.activity_meeting_creator_spinner_place);
+        mTextViewDate = findViewById(R.id.activity_meeting_creator_text_view_date);
+        mTextViewHour = findViewById(R.id.activity_meeting_creator_text_view_hour);
+        mTextViewDuration = findViewById(R.id.activity_meeting_creator_text_view_duration);
+        mMultiAutoCompleteTextViewMembers = findViewById(R.id.activity_meeting_creator_multi_auto_complete_text_view_members);
+        mButtonCancellation = findViewById(R.id.activity_meeting_creator_button_cancellation);
+        mButtonValidation = findViewById(R.id.activity_meeting_creator_button_validation);
+        mImageButtonAddEmail = findViewById(R.id.activity_meeting_creator_button_add_email);
+        mChipGroupEmail = findViewById(R.id.activity_meeting_creator_chip_group_email);
 
         // Data
         mApiService = DI.getApiService();
@@ -81,6 +92,7 @@ public class MeetingCreatorActivity
 
         setToolbar();
         setMeetingRoomList();
+        setOnFocusChangeListener();
         setOnClickListener();
         setMemberReminderList();
     }
@@ -105,13 +117,11 @@ public class MeetingCreatorActivity
     public void setMemberReminderList(){
         mMemberReminderList = mApiService.getMembersReminderList();
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,mMemberReminderList);
 
-        mAutoCompleteTextViewMembers.setAdapter(adapter);
-        mAutoCompleteTextViewMembers.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
+        mMultiAutoCompleteTextViewMembers.setAdapter(adapter);
+        mMultiAutoCompleteTextViewMembers.setTokenizer(new CustomTokenizer());
     }
 
     public void setMeetingRoomList(){
@@ -132,30 +142,48 @@ public class MeetingCreatorActivity
         mSpinnerPlace.setSelection(0);
     }
 
+    public void setOnFocusChangeListener(){
+        mTextViewDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    DialogFragment dateDialog = new DateDialogFragment();
+                    dateDialog.show(getSupportFragmentManager(), "dateDialog");
+                    mTextViewHour.clearFocus();
+                }
+            }
+        });
+
+        mTextViewHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    DialogFragment hourDialog = new HourDialogFragment();
+                    hourDialog.show(getSupportFragmentManager(), "hourDialog");
+                    timePickerKey = 1;
+                    mTextViewHour.clearFocus();
+                }
+            }
+        });
+
+        mTextViewDuration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    DialogFragment durationDialog = new DurationDialogFragment();
+                    durationDialog.show(getSupportFragmentManager(), "durationDialog");
+                    timePickerKey = 2;
+                    mTextViewHour.clearFocus();
+                }
+            }
+        });
+    }
+
     public void setOnClickListener(){
-        mTextViewDate.setOnClickListener(new View.OnClickListener() {
+        mImageButtonAddEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dateDialog = new DateDialogFragment();
-                dateDialog.show(getSupportFragmentManager(), "dateDialog");
-            }
-        });
-
-        mTextViewHour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment hourDialog = new HourDialogFragment();
-                hourDialog.show(getSupportFragmentManager(), "hourDialog");
-                timePickerKey = 1;
-            }
-        });
-
-        mTextViewDuration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment durationDialog = new DurationDialogFragment();
-                durationDialog.show(getSupportFragmentManager(), "durationDialog");
-                timePickerKey = 2;
+                addEmailToChipGroup(mMultiAutoCompleteTextViewMembers.getText().toString());
             }
         });
 
@@ -176,26 +204,81 @@ public class MeetingCreatorActivity
         });
     }
 
+    public void addEmailToChipGroup(String email){
+        if (checkEmailStructure(email)) {
+            addEmail(email);
+
+            mMultiAutoCompleteTextViewMembers.setText("");
+            hideSoftKeyboard();
+        }
+    }
+
+    public ArrayList<String> getTextFromChipGroup(ChipGroup chipGroup){
+        ArrayList<String> list = new ArrayList<>();
+        Chip chip;
+        for (int i=0; i < chipGroup.getChildCount(); i++){
+            chip = (Chip) chipGroup.getChildAt(i);
+            list.add(chip.getText().toString());
+        }
+        return list;
+    }
+
+    public void hideSoftKeyboard(){
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+    }
+
+    public Boolean checkEmailStructure(String string){
+        boolean emailValid = false;
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailErrorMessage = "Veuillez saisir une adresse email valide";
+
+        if (string.isEmpty()){
+            Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
+            emailValid = false;
+        } else {
+            if (string.trim().matches(emailPattern)) {
+                emailValid = true;
+            } else {
+                Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
+                emailValid = false;
+            }
+        }
+        return emailValid;
+    }
+
+    public void addEmail(String email){
+        Chip chip = new Chip(this);
+        chip.setText(email);
+        chip.setCloseIconVisible(true);
+        chip.setCheckable(false);
+        chip.setClickable(false);
+        chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
+        mChipGroupEmail.addView(chip);
+        mChipGroupEmail.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Chip chip = (Chip) view;
+        mChipGroupEmail.removeView(chip);
+    }
+
     private void passCharacters() {
         mMeeting.setTopic(mEditTextTopic.getText().toString());
         mMeeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
         mMeeting.setDate(mTextViewDate.getText().toString());
         mMeeting.setHour(mTextViewHour.getText().toString());
         mMeeting.setDuration(mTextViewDuration.getText().toString());
-        mMeeting.setMembersByArrayList(stringToArrayConverter(mAutoCompleteTextViewMembers.getText().toString()));
-    }
-
-    private ArrayList<String> stringToArrayConverter(String string){
-        String[] elements = string.split(",");
-        List<String> list = Arrays.asList(elements);
-        ArrayList<String> arrayList = new ArrayList<>(list);
-        return arrayList;
+        mMeeting.setMembersByArrayList(getTextFromChipGroup(mChipGroupEmail));
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     @Override
@@ -224,7 +307,6 @@ public class MeetingCreatorActivity
     }
 
     public void setTextViewDuration(int hour, int minutes){
-
         if (hour > 0){
             if (minutes == 0){
                 mTextViewDuration.setText(hour + "h");
@@ -234,7 +316,6 @@ public class MeetingCreatorActivity
         } else {
             mTextViewDuration.setText(String.format("%02d", minutes) + "min");
         }
-
     }
 
     @Subscribe

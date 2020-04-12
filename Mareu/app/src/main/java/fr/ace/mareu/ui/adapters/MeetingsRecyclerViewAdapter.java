@@ -13,8 +13,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
@@ -41,7 +39,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
         final Meeting meeting = mMeetingsList.get(position);
         holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace() +  " (" + meeting.getDuration() + ")");
         holder.mTextViewLine2.setText(meeting.getDate() + " - " + meeting.getHour() );
-        holder.mTextViewLine3.setText(meeting.getMembersByString());
+        holder.mTextViewLine3.setText(setTextViewLine3(meeting.getMembersByArrayList()));
 
         // Listeners
         holder.mImageViewDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -60,20 +58,36 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.item_meeting_colored_circle)
         ImageView mImageViewColoredCircle;
-        @BindView(R.id.item_meeting_delete_button)
         ImageView mImageViewDeleteButton;
-        @BindView(R.id.item_meeting_txt_line1)
         TextView mTextViewLine1;
-        @BindView(R.id.item_meeting_txt_line2)
         TextView mTextViewLine2;
-        @BindView(R.id.item_meeting_txt_line3)
         TextView mTextViewLine3;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mImageViewColoredCircle = itemView.findViewById(R.id.item_meeting_colored_circle);
+            mImageViewDeleteButton = itemView.findViewById(R.id.item_meeting_delete_button);
+            mTextViewLine1 = itemView.findViewById(R.id.item_meeting_txt_line1);
+            mTextViewLine2 = itemView.findViewById(R.id.item_meeting_txt_line2);
+            mTextViewLine3 = itemView.findViewById(R.id.item_meeting_txt_line3);
         }
+    }
+
+    public String setTextViewLine3(ArrayList<String> list){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for ( int i = 0; i < list.size(); i++){
+
+            if (i == (list.size()-1)){
+                stringBuilder.append(list.get(i));
+            } else {
+                stringBuilder.append(list.get(i) + ", ");
+            }
+        }
+
+
+        String line3 = stringBuilder.toString();
+        return line3;
     }
 }

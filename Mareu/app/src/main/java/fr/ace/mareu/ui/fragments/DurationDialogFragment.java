@@ -20,6 +20,6 @@ public class DurationDialogFragment extends DialogFragment {
         final Calendar calendar = Calendar.getInstance();
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), R.style.CustomTimePickerDialog ,(TimePickerDialog.OnTimeSetListener) getActivity() ,0,0, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity() ,0,45, DateFormat.is24HourFormat(getActivity()));
     }
 }

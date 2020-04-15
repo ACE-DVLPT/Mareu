@@ -143,43 +143,67 @@ public class MeetingCreatorActivity
     }
 
     public void setOnFocusChangeListener(){
-        mTextViewDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
-                    DialogFragment dateDialog = new DateDialogFragment();
-                    dateDialog.show(getSupportFragmentManager(), "dateDialog");
-                    mTextViewHour.clearFocus();
-                }
-            }
-        });
-
-        mTextViewHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
-                    DialogFragment hourDialog = new HourDialogFragment();
-                    hourDialog.show(getSupportFragmentManager(), "hourDialog");
-                    timePickerKey = 1;
-                    mTextViewHour.clearFocus();
-                }
-            }
-        });
-
-        mTextViewDuration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus){
-                    DialogFragment durationDialog = new DurationDialogFragment();
-                    durationDialog.show(getSupportFragmentManager(), "durationDialog");
-                    timePickerKey = 2;
-                    mTextViewHour.clearFocus();
-                }
-            }
-        });
+//        mTextViewDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if(hasFocus){
+//                    DialogFragment dateDialog = new DateDialogFragment();
+//                    dateDialog.show(getSupportFragmentManager(), "dateDialog");
+//                }
+//            }
+//        });
+//
+//        mTextViewHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if(hasFocus){
+//                    DialogFragment hourDialog = new HourDialogFragment();
+//                    hourDialog.show(getSupportFragmentManager(), "hourDialog");
+//                    timePickerKey = 1;
+//                }
+//            }
+//        });
+//
+//        mTextViewDuration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if(hasFocus){
+//                    DialogFragment durationDialog = new DurationDialogFragment();
+//                    durationDialog.show(getSupportFragmentManager(), "durationDialog");
+//                    timePickerKey = 2;
+//                }
+//            }
+//        });
     }
 
     public void setOnClickListener(){
+
+        mTextViewDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dateDialog = new DateDialogFragment();
+                dateDialog.show(getSupportFragmentManager(), "dateDialog");
+            }
+         });
+
+        mTextViewHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment hourDialog = new HourDialogFragment();
+                hourDialog.show(getSupportFragmentManager(), "hourDialog");
+                timePickerKey = 1;
+            }
+        });
+
+        mTextViewDuration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment durationDialog = new DurationDialogFragment();
+                durationDialog.show(getSupportFragmentManager(), "durationDialog");
+                timePickerKey = 2;
+            }
+        });
+
         mImageButtonAddEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

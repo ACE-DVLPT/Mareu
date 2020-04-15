@@ -24,9 +24,7 @@ public class Meeting {
         return mDate;
     }
 
-    public void setDate(String date) {
-        mDate = date;
-    }
+    public void setDate(String date) { mDate = date; }
 
     public String getDuration() {
         return mDuration;

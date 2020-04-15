@@ -37,7 +37,7 @@ public abstract class FakeApiServiceGenerator {
                     "Réunion A",
                     "Peach",
                     "01/02/2021",
-                    "14:00",
+                    "14h00",
                     "1h",
                     new ArrayList<>(Arrays.asList(
                             ("maxime@lamzone.com"),
@@ -48,7 +48,7 @@ public abstract class FakeApiServiceGenerator {
                     "Réunion B",
                     "Mario",
                     "01/03/2021",
-                    "16:00",
+                    "16h00",
                     "1h",
                     new ArrayList<>(Arrays.asList(
                             ("paul@lamzone.com"),
@@ -59,7 +59,7 @@ public abstract class FakeApiServiceGenerator {
                     "Réunion C",
                     "Luigi",
                     "01/04/2021",
-                    "19:00",
+                    "19h00",
                     "1h30",
                     new ArrayList<>(Arrays.asList(
                             ("amandine@lamzone.com"),

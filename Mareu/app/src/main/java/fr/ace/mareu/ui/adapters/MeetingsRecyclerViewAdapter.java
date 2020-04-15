@@ -37,7 +37,8 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Meeting meeting = mMeetingsList.get(position);
-        holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace() +  " (" + meeting.getDuration() + ")");
+        holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace());
+        holder.mTextViewDuration.setText(" (" + meeting.getDuration() + ")");
         holder.mTextViewLine2.setText(meeting.getDate() + " - " + meeting.getHour() );
         holder.mTextViewLine3.setText(setTextViewLine3(meeting.getMembersByArrayList()));
 
@@ -61,6 +62,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
         ImageView mImageViewColoredCircle;
         ImageView mImageViewDeleteButton;
         TextView mTextViewLine1;
+        TextView mTextViewDuration;
         TextView mTextViewLine2;
         TextView mTextViewLine3;
 
@@ -69,6 +71,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
             mImageViewColoredCircle = itemView.findViewById(R.id.item_meeting_colored_circle);
             mImageViewDeleteButton = itemView.findViewById(R.id.item_meeting_delete_button);
             mTextViewLine1 = itemView.findViewById(R.id.item_meeting_txt_line1);
+            mTextViewDuration = itemView.findViewById(R.id.item_meeting_txt_Duration);
             mTextViewLine2 = itemView.findViewById(R.id.item_meeting_txt_line2);
             mTextViewLine3 = itemView.findViewById(R.id.item_meeting_txt_line3);
         }

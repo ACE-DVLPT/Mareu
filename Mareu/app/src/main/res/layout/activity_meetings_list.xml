@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.MeetingsListActivity">
+    tools:context=".ui.MeetingsListActivity"
+    >
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -14,7 +17,8 @@
 
         <include
             android:id="@+id/activity_meetings_list_toolbar"
-            layout="@layout/custom_toolbar" />
+            layout="@layout/custom_toolbar"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,8 +41,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_black_24dp"
-        android:tint="@color/colorAccent"
-        android:backgroundTint="@color/colorPrimary"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

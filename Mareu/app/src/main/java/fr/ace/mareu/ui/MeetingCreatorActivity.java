@@ -92,7 +92,6 @@ public class MeetingCreatorActivity
 
         setToolbar();
         setMeetingRoomList();
-        setOnFocusChangeListener();
         setOnClickListener();
         setMemberReminderList();
     }
@@ -140,40 +139,6 @@ public class MeetingCreatorActivity
         mSpinnerPlace.setAdapter(adapter);
 
         mSpinnerPlace.setSelection(0);
-    }
-
-    public void setOnFocusChangeListener(){
-//        mTextViewDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if(hasFocus){
-//                    DialogFragment dateDialog = new DateDialogFragment();
-//                    dateDialog.show(getSupportFragmentManager(), "dateDialog");
-//                }
-//            }
-//        });
-//
-//        mTextViewHour.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if(hasFocus){
-//                    DialogFragment hourDialog = new HourDialogFragment();
-//                    hourDialog.show(getSupportFragmentManager(), "hourDialog");
-//                    timePickerKey = 1;
-//                }
-//            }
-//        });
-//
-//        mTextViewDuration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if(hasFocus){
-//                    DialogFragment durationDialog = new DurationDialogFragment();
-//                    durationDialog.show(getSupportFragmentManager(), "durationDialog");
-//                    timePickerKey = 2;
-//                }
-//            }
-//        });
     }
 
     public void setOnClickListener(){

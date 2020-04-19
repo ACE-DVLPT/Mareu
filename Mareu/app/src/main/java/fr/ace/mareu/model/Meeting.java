@@ -9,15 +9,15 @@ public class Meeting {
     private String mDate;
     private String mHour;
     private String mDuration;
-    private ArrayList<String> mMembersByArrayList;
+    private ArrayList<String> mMembers;
 
-    public Meeting(String topic, String place, String date, String hour, String duration, ArrayList<String> membersByArrayList) {
+    public Meeting(String topic, String place, String date, String hour, String duration, ArrayList<String> members) {
         mTopic = topic;
         mPlace = place;
         mDate = date;
         mHour = hour;
         mDuration = duration;
-        mMembersByArrayList = membersByArrayList;
+        mMembers = members;
     }
 
     public String getDate() {
@@ -58,11 +58,11 @@ public class Meeting {
         mHour = hour;
     }
 
-    public ArrayList<String> getMembersByArrayList() {
-        return mMembersByArrayList;
+    public ArrayList<String> getMembers() {
+        return mMembers;
     }
 
-    public void setMembersByArrayList(ArrayList<String> membersByArrayList) {
-        mMembersByArrayList = membersByArrayList;
+    public void setMembers(ArrayList<String> members) {
+        mMembers = members;
     }
 }

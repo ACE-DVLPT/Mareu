@@ -22,40 +22,44 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <LinearLayout
+        android:id="@+id/activity_meetings_list_linear_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior = "@string/appbar_scrolling_view_behavior">
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+        android:visibility="visible"
+        >
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guide_line"
+            android:layout_weight="0.5"
             >
 
             <include layout="@layout/recyclerview_meetings_list" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#1F000000"
+            />
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="@id/guide_line"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:layout_weight="0.5"
+            android:background="#F0F0F0"
+            >
 
-            <include layout="@layout/fragment_details" />
+            <include layout="@layout/fragment_member_list" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/activity_meetings_list_txt_empty_view"
@@ -63,7 +67,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="Aucune réunion planifiée"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_behavior = "@string/appbar_scrolling_view_behavior"
         />
 

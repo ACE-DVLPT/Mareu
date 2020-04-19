@@ -262,7 +262,7 @@ public class MeetingCreatorActivity
         mMeeting.setDate(mTextViewDate.getText().toString());
         mMeeting.setHour(mTextViewHour.getText().toString());
         mMeeting.setDuration(mTextViewDuration.getText().toString());
-        mMeeting.setMembersByArrayList(getTextFromChipGroup(mChipGroupEmail));
+        mMeeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
     }
 
     @Override

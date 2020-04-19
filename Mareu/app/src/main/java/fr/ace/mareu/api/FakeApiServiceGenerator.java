@@ -36,7 +36,7 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion A",
                     "Peach",
-                    "01/02/2021",
+                    "vendredi 17 avril 2020",
                     "14h00",
                     "1h",
                     new ArrayList<>(Arrays.asList(
@@ -47,7 +47,7 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion B",
                     "Mario",
-                    "01/03/2021",
+                    "Lundi 20 avril 2020",
                     "16h00",
                     "1h",
                     new ArrayList<>(Arrays.asList(
@@ -58,7 +58,7 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion C",
                     "Luigi",
-                    "01/04/2021",
+                    "Lundi 20 avril 2020",
                     "19h00",
                     "1h30",
                     new ArrayList<>(Arrays.asList(

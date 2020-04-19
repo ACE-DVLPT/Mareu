@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
@@ -22,6 +24,7 @@ import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.utils.di.DI;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.ui.adapters.MeetingsRecyclerViewAdapter;
+import fr.ace.mareu.utils.events.ClickOnItemInRecyclerViewEvent;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
 public class MeetingsListActivity extends AppCompatActivity {
@@ -38,6 +41,10 @@ public class MeetingsListActivity extends AppCompatActivity {
 
     ApiService mApiService;
 
+    // Orientation LandScape
+    LinearLayout mLinearLayoutContainer;
+    TextView mTextViewMembersList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,10 @@ public class MeetingsListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview_meetings_list);
         mTextViewEmptyView = findViewById(R.id.activity_meetings_list_txt_empty_view);
         mToolbar = findViewById(R.id.activity_meetings_list_toolbar);
+
+        // Orientation LandScape
+        mLinearLayoutContainer = findViewById(R.id.activity_meetings_list_linear_layout_container);
+        mTextViewMembersList = findViewById(R.id.fragment_member_list_text_view);
 
         setSupportActionBar(mToolbar);
 
@@ -69,6 +80,8 @@ public class MeetingsListActivity extends AppCompatActivity {
                 openMeetingCreatorActivity();
             }
         });
+
+
     }
 
     @Override
@@ -94,11 +107,45 @@ public class MeetingsListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void displayMessageIfRecyclerViewIsEmpty() {
-        if (mMeetingsList.isEmpty()){
-            mTextViewEmptyView.setVisibility(View.VISIBLE);
+    public Boolean orientationLandScape(){
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            return true;
         } else {
-            mTextViewEmptyView.setVisibility(View.INVISIBLE);
+            return false;
+        }
+    }
+
+    public void displayMessageIfRecyclerViewIsEmpty() {
+        if (orientationLandScape()){
+            if (mMeetingsList.isEmpty()){
+                mTextViewEmptyView.setVisibility(View.VISIBLE);
+                mLinearLayoutContainer.setVisibility(View.GONE);
+            } else {
+                mTextViewEmptyView.setVisibility(View.GONE);
+                mLinearLayoutContainer.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (mMeetingsList.isEmpty()){
+                mTextViewEmptyView.setVisibility(View.VISIBLE);
+            } else {
+                mTextViewEmptyView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void setMembersListOnTextView(ArrayList arrayList, TextView textView){
+        if (orientationLandScape()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < arrayList.size(); i++) {
+
+                if (i == (arrayList.size() - 1)) {
+                    stringBuilder.append(arrayList.get(i));
+                } else {
+                    stringBuilder.append(arrayList.get(i) + "\n");
+                }
+            }
+            textView.setText(stringBuilder.toString());
         }
     }
 
@@ -112,6 +159,11 @@ public class MeetingsListActivity extends AppCompatActivity {
     public void onDeleteMeetingEvent(DeleteMeetingEvent event){
         mApiService.deleteMeeting(event.mMeeting);
         initList();
+    }
+
+    @Subscribe
+    public void onClickItemInRecyclerViewEvent(ClickOnItemInRecyclerViewEvent event){
+        setMembersListOnTextView(event.mMeeting.getMembers(), mTextViewMembersList);
     }
 
 }

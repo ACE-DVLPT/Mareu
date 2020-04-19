@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
+import fr.ace.mareu.utils.events.ClickOnItemInRecyclerViewEvent;
 
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRecyclerViewAdapter.ViewHolder> {
 
@@ -35,18 +36,25 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final Meeting meeting = mMeetingsList.get(position);
         holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace());
         holder.mTextViewDuration.setText(" (" + meeting.getDuration() + ")");
         holder.mTextViewLine2.setText(meeting.getDate() + " - " + meeting.getHour() );
-        holder.mTextViewLine3.setText(setTextViewLine3(meeting.getMembersByArrayList()));
+        holder.mTextViewLine3.setText(setTextViewLine3(meeting.getMembers()));
 
         // Listeners
         holder.mImageViewDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new ClickOnItemInRecyclerViewEvent(meeting, position));
             }
         });
     }

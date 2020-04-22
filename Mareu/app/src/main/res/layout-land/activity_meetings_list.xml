@@ -22,40 +22,64 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <LinearLayout
-        android:id="@+id/activity_meetings_list_linear_layout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior = "@string/appbar_scrolling_view_behavior"
-        android:visibility="visible"
         >
 
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            >
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/activity_meetings_list_chip_group_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:singleLine="true"
+                />
+
+        </HorizontalScrollView>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
+            android:id="@+id/activity_meetings_list_linear_layout_container"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+            android:visibility="visible"
             >
 
-            <include layout="@layout/recyclerview_meetings_list" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                >
 
-        </LinearLayout>
+                <include layout="@layout/recyclerview_meetings_list" />
 
-        <LinearLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#1F000000"
-            />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#F0F0F0"
-            >
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#1F000000"
+                />
 
-            <include layout="@layout/fragment_member_list" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="#F0F0F0"
+                >
+
+                <include layout="@layout/fragment_member_list" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

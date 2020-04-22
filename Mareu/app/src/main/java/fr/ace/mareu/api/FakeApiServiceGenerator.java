@@ -69,7 +69,7 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion D",
                     "Luigi",
-                    "Lundi 21 avril 2020",
+                    "Mardi 21 avril 2020",
                     "19h00",
                     "1h30",
                     new ArrayList<>(Arrays.asList(

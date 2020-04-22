@@ -10,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -175,21 +176,18 @@ public class MeetingsListActivity extends AppCompatActivity
                 Boolean filtered = false;
 
                 for (int j = 0 ; j < filtersList.size() ; j++){
-                    if (filtersList.get(j) == initialList.get(i).getPlace()){
+                    if (filtersList.get(j).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase())){
                         filtered = true;
                     }
-
-                    if (filtersList.get(j) == initialList.get(i).getDate()){
+                    if (filtersList.get(j).toLowerCase().equals(initialList.get(i).getDate().toLowerCase())){
                         filtered = true;
                     }
                 }
-
                 if (filtered){
                     finalList.add(initialList.get(i));
                 }
             }
         }
-
         return finalList;
     }
 

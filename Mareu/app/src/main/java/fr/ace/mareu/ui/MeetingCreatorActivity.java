@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -92,6 +93,7 @@ public class MeetingCreatorActivity
         setMeetingRoomList();
         setOnClickListener();
         setMemberReminderList();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override

@@ -6,7 +6,8 @@
     <item
         android:icon="@drawable/ic_filter_list_white_24dp"
         app:showAsAction="always"
-        android:title="">
+        android:title=""
+        >
 
         <menu>
             <item

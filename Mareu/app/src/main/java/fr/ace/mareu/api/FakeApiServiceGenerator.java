@@ -36,7 +36,7 @@ public abstract class FakeApiServiceGenerator {
             new Meeting(
                     "Réunion A",
                     "Peach",
-                    "vendredi 17 avril 2020",
+                    "Vendredi 17 avril 2020",
                     "14h00",
                     "1h",
                     new ArrayList<>(Arrays.asList(
@@ -65,7 +65,19 @@ public abstract class FakeApiServiceGenerator {
                             ("amandine@lamzone.com"),
                             ("luc@lamzone.com")
                     ))
+            ),
+            new Meeting(
+                    "Réunion D",
+                    "Luigi",
+                    "Lundi 21 avril 2020",
+                    "19h00",
+                    "1h30",
+                    new ArrayList<>(Arrays.asList(
+                            ("amandine@lamzone.com"),
+                            ("luc@lamzone.com")
+                    ))
             )
+
     );
 
     public static ArrayList<String> generateMembersReminderList() {

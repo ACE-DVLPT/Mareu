@@ -1,5 +1,6 @@
 package fr.ace.mareu.ui.adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
 
     // Adapter
     private final ArrayList<Meeting> mMeetingsList;
+    int index = -1;
 
     public MeetingsRecyclerViewAdapter(ArrayList<Meeting> meetingsList) {
         mMeetingsList = meetingsList;
@@ -36,7 +38,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Meeting meeting = mMeetingsList.get(position);
         holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace());
         holder.mTextViewDuration.setText(" (" + meeting.getDuration() + ")");
@@ -48,6 +50,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
+                index = -1;
             }
         });
 
@@ -55,8 +58,17 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().post(new ClickOnItemInRecyclerViewEvent(meeting, position));
+                index = position;
+                notifyDataSetChanged();
             }
         });
+
+        // highlightItem
+        if (index == position){
+            holder.itemView.setBackgroundColor(Color.parseColor("#10000000"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#00FFFFFF"));
+        }
     }
 
     @Override

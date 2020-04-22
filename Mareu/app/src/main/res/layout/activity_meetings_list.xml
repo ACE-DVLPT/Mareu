@@ -8,7 +8,6 @@
     tools:context=".ui.MeetingsListActivity"
     >
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +21,32 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/recyclerview_meetings_list" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+        >
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            >
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/activity_meetings_list_chip_group_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:singleLine="true"
+                />
+
+        </HorizontalScrollView>
+
+        <include layout="@layout/recyclerview_meetings_list" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/activity_meetings_list_txt_empty_view"

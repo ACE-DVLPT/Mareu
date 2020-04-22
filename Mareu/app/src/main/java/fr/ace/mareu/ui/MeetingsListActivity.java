@@ -1,45 +1,63 @@
 package fr.ace.mareu.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import fr.ace.mareu.R;
 import fr.ace.mareu.api.ApiService;
+import fr.ace.mareu.ui.fragments.DateDialogFragment;
+import fr.ace.mareu.ui.fragments.PlaceFilterDialogFragment;
 import fr.ace.mareu.utils.di.DI;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.ui.adapters.MeetingsRecyclerViewAdapter;
 import fr.ace.mareu.utils.events.ClickOnItemInRecyclerViewEvent;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
-public class MeetingsListActivity extends AppCompatActivity {
+public class MeetingsListActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener, View.OnClickListener, PlaceFilterDialogFragment.OnPlaceSetListener {
+
+    ApiService mApiService;
 
     FloatingActionButton mBtnAddMeeting;
     RecyclerView mRecyclerView;
     TextView mTextViewEmptyView;
     Toolbar mToolbar;
+    ChipGroup mChipGroupFilters;
+
 
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
 
     ArrayList<Meeting> mMeetingsList;
-
-    ApiService mApiService;
+    ArrayList<String> mFiltersList;
 
     // Orientation LandScape
     LinearLayout mLinearLayoutContainer;
@@ -54,6 +72,8 @@ public class MeetingsListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview_meetings_list);
         mTextViewEmptyView = findViewById(R.id.activity_meetings_list_txt_empty_view);
         mToolbar = findViewById(R.id.activity_meetings_list_toolbar);
+        mChipGroupFilters = findViewById(R.id.activity_meetings_list_chip_group_filters);
+
 
         // Orientation LandScape
         mLinearLayoutContainer = findViewById(R.id.activity_meetings_list_linear_layout_container);
@@ -61,9 +81,10 @@ public class MeetingsListActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
-        mApiService = DI.getApiService();
+        mMeetingsList = new ArrayList<>();
+        mFiltersList = new ArrayList<>();
 
-        mMeetingsList = mApiService.getMeetingsList();
+        mApiService = DI.getApiService();
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -80,7 +101,6 @@ public class MeetingsListActivity extends AppCompatActivity {
                 openMeetingCreatorActivity();
             }
         });
-
 
     }
 
@@ -100,6 +120,100 @@ public class MeetingsListActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.filter, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_filter_place:
+                DialogFragment placeDialog = new PlaceFilterDialogFragment();
+                placeDialog.show(getSupportFragmentManager(), "placeDialog");
+                return true;
+            case R.id.menu_filter_date:
+                DialogFragment dateDialog = new DateDialogFragment();
+                dateDialog.show(getSupportFragmentManager(), "dateDialog");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPlaceSet(String place) {
+        mFiltersList.add(place);
+        addFilterToChipGroup(place);
+        initList();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        String dateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+
+        mFiltersList.add(dateString.toLowerCase());
+        addFilterToChipGroup(dateString);
+        initList();
+    }
+
+    public ArrayList<Meeting> listOfMeetingsToDisplay(ArrayList<Meeting> initialList, ArrayList<String> filtersList){
+        ArrayList<Meeting> finalList = new ArrayList<>();
+
+        if(filtersList.isEmpty()){
+            finalList = initialList;
+        } else {
+            for (int i = 0 ; i < initialList.size() ; i++){
+
+                Boolean filtered = false;
+
+                for (int j = 0 ; j < filtersList.size() ; j++){
+                    if (filtersList.get(j) == initialList.get(i).getPlace()){
+                        filtered = true;
+                    }
+
+                    if (filtersList.get(j) == initialList.get(i).getDate()){
+                        filtered = true;
+                    }
+                }
+
+                if (filtered){
+                    finalList.add(initialList.get(i));
+                }
+            }
+        }
+
+        return finalList;
+    }
+
+    public void addFilterToChipGroup(String filter){
+        Chip chip = new Chip(this);
+        chip.setText(filter);
+        chip.setCloseIconVisible(true);
+        chip.setCheckable(false);
+        chip.setClickable(false);
+        chip.setOnCloseIconClickListener(this);
+        mChipGroupFilters.addView(chip);
+        mChipGroupFilters.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        Chip chip = (Chip) view;
+        mChipGroupFilters.removeView(chip);
+        for (int i = 0 ; i < mFiltersList.size() ; i++){
+            if (chip.getText().toString() == mFiltersList.get(i)){
+                mFiltersList.remove(i);
+            }
+        }
+        initList();
     }
 
     public void openMeetingCreatorActivity(){
@@ -137,6 +251,7 @@ public class MeetingsListActivity extends AppCompatActivity {
     public void setMembersListOnTextView(ArrayList arrayList, TextView textView){
         if (orientationLandScape()) {
             StringBuilder stringBuilder = new StringBuilder();
+
             for (int i = 0; i < arrayList.size(); i++) {
 
                 if (i == (arrayList.size() - 1)) {
@@ -150,9 +265,15 @@ public class MeetingsListActivity extends AppCompatActivity {
     }
 
     public void initList() {
-        mMeetingsList = mApiService.getMeetingsList();
+        mMeetingsList.clear();
+        mMeetingsList.addAll(listOfMeetingsToDisplay(mApiService.getMeetingsList(),mFiltersList));
         mAdapter.notifyDataSetChanged();
         displayMessageIfRecyclerViewIsEmpty();
+
+        // Orientation LandScape
+        if (orientationLandScape()){
+            mTextViewMembersList.setText("");
+        }
     }
 
     @Subscribe
@@ -165,5 +286,4 @@ public class MeetingsListActivity extends AppCompatActivity {
     public void onClickItemInRecyclerViewEvent(ClickOnItemInRecyclerViewEvent event){
         setMembersListOnTextView(event.mMeeting.getMembers(), mTextViewMembersList);
     }
-
 }

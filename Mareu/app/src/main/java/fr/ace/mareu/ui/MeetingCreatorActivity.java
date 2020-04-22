@@ -2,7 +2,6 @@ package fr.ace.mareu.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -49,13 +48,12 @@ import fr.ace.mareu.utils.events.AddMeetingEvent;
 
 public class MeetingCreatorActivity
         extends AppCompatActivity
-        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener {
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DurationDialogFragment.OnDurationSetListener, View.OnClickListener {
 
     private ApiService mApiService;
     private Meeting mMeeting;
     private List<MeetingRoom> mMeetingRoomList;
     private List<String> mMemberReminderList;
-    int timePickerKey = 0;
 
     Toolbar mToolbar;
     EditText mEditTextTopic;
@@ -156,7 +154,6 @@ public class MeetingCreatorActivity
             public void onClick(View view) {
                 DialogFragment hourDialog = new HourDialogFragment();
                 hourDialog.show(getSupportFragmentManager(), "hourDialog");
-                timePickerKey = 1;
             }
         });
 
@@ -165,7 +162,6 @@ public class MeetingCreatorActivity
             public void onClick(View view) {
                 DialogFragment durationDialog = new DurationDialogFragment();
                 durationDialog.show(getSupportFragmentManager(), "durationDialog");
-                timePickerKey = 2;
             }
         });
 
@@ -200,6 +196,17 @@ public class MeetingCreatorActivity
             mMultiAutoCompleteTextViewMembers.setText("");
             hideSoftKeyboard();
         }
+    }
+
+    public void addEmail(String email){
+        Chip chip = new Chip(this);
+        chip.setText(email);
+        chip.setCloseIconVisible(true);
+        chip.setCheckable(false);
+        chip.setClickable(false);
+        chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
+        mChipGroupEmail.addView(chip);
+        mChipGroupEmail.setVisibility(View.VISIBLE);
     }
 
     public ArrayList<String> getTextFromChipGroup(ChipGroup chipGroup){
@@ -239,17 +246,6 @@ public class MeetingCreatorActivity
         return emailValid;
     }
 
-    public void addEmail(String email){
-        Chip chip = new Chip(this);
-        chip.setText(email);
-        chip.setCloseIconVisible(true);
-        chip.setCheckable(false);
-        chip.setClickable(false);
-        chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
-        mChipGroupEmail.addView(chip);
-        mChipGroupEmail.setVisibility(View.VISIBLE);
-    }
-
     @Override
     public void onClick(View view) {
         Chip chip = (Chip) view;
@@ -281,18 +277,12 @@ public class MeetingCreatorActivity
         mTextViewDate.setText(dateString);
     }
 
-    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-
-        if (timePickerKey == 1) {
-            mTextViewHour.setText(String.format("%02d",hour) + "h" + String.format("%02d",minute));
-        } else if (timePickerKey == 2){
-            setTextViewDuration(hour,minute);
-        }
+        mTextViewHour.setText(String.format("%02d",hour) + "h" + String.format("%02d",minute));
     }
 
     public void setTextViewDuration(int hour, int minutes){
@@ -305,6 +295,11 @@ public class MeetingCreatorActivity
         } else {
             mTextViewDuration.setText(String.format("%02d", minutes) + "min");
         }
+    }
+
+    @Override
+    public void onDurationSet(int hour, int minute) {
+        setTextViewDuration(hour,minute);
     }
 
     @Subscribe

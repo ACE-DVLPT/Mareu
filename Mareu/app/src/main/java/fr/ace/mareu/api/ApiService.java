@@ -19,4 +19,6 @@ void addMeeting(Meeting meeting);
 
 void deleteMeeting(Meeting meeting);
 
+Boolean checkNoDuplicateMeeting(Meeting meeting);
+
 }

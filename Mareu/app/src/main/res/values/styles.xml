@@ -9,7 +9,7 @@
         <item name="android:itemTextAppearance">@style/itemTextStyle.AppTheme</item>
     </style>
 
-    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="AppTheme.Picker" parent="AppTheme" >
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:colorControlNormal">@android:color/white</item>

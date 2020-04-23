@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import fr.ace.mareu.R;
@@ -41,8 +42,8 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Meeting meeting = mMeetingsList.get(position);
         holder.mTextViewLine1.setText(meeting.getTopic() + " - " + meeting.getPlace());
-        holder.mTextViewDuration.setText(" (" + meeting.getDuration() + ")");
-        holder.mTextViewLine2.setText(meeting.getDate() + " - " + meeting.getHour() );
+        holder.mTextViewDuration.setText(" (" + meeting.getStringDuration() + ")");
+        holder.mTextViewLine2.setText(meeting.getStringDate() + " - " + meeting.getStringHour() );
         holder.mTextViewLine3.setText(setTextViewLine3(meeting.getMembers()));
 
         // Listeners

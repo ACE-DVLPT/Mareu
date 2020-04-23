@@ -40,4 +40,23 @@ public class FakeApiService implements ApiService {
     public void deleteMeeting(Meeting meeting) {
         mMeetingsList.remove(meeting);
     }
+
+    @Override
+    public Boolean checkNoDuplicateMeeting(Meeting meeting) {
+        Boolean result = false;
+
+        for (int i = 0 ; i < mMeetingsList.size() ; i++){
+            if(
+                    meeting.getPlace().equals(mMeetingsList.get(i).getPlace()) &
+                    meeting.getDate().equals(mMeetingsList.get(i).getDate())
+                    //TODO
+            ){
+                result = true;
+            } else{
+                result = false;
+            }
+        }
+
+        return result;
+    }
 }

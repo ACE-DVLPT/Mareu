@@ -177,9 +177,17 @@ public class MeetingCreatorActivity
         mButtonValidation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                passCharacters();
-                EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
-                finish();
+                if (allFieldsCompleted()) {
+                    if (noDuplicateMeeting()) {
+                        passCharacters();
+                        EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
+                        finish();
+                    } else {
+                        Toast.makeText(MeetingCreatorActivity.this, "Attention la salle de réunion est déjà prise sur ce créneau", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(MeetingCreatorActivity.this, "Attention tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -189,6 +197,28 @@ public class MeetingCreatorActivity
                 onBackPressed();
             }
         });
+    }
+    
+    public Boolean allFieldsCompleted(){
+        Boolean result;
+        if (
+                mEditTextTopic.getText().toString().equals("") ||
+                mSpinnerPlace.getSelectedItem() == mSpinnerPlace.getItemAtPosition(0) ||
+                mTextViewDate.getText().toString().equals("") ||
+                mTextViewHour.getText().toString().equals("") ||
+                mTextViewDuration.getText().toString().equals("")
+        ){
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    }
+    
+    public Boolean noDuplicateMeeting(){
+        Boolean result = true;
+
+        return result;
     }
 
     public void addEmailToChipGroup(String email){
@@ -257,9 +287,6 @@ public class MeetingCreatorActivity
     private void passCharacters() {
         mMeeting.setTopic(mEditTextTopic.getText().toString());
         mMeeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
-        mMeeting.setDate(mTextViewDate.getText().toString());
-        mMeeting.setHour(mTextViewHour.getText().toString());
-        mMeeting.setDuration(mTextViewDuration.getText().toString());
         mMeeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
     }
 
@@ -274,9 +301,8 @@ public class MeetingCreatorActivity
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        String dateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-
-        mTextViewDate.setText(dateString);
+        mMeeting.setDate(calendar);
+        mTextViewDate.setText(mMeeting.getStringDate());
     }
 
     @Override
@@ -284,19 +310,16 @@ public class MeetingCreatorActivity
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        mTextViewHour.setText(String.format("%02d",hour) + "h" + String.format("%02d",minute));
+        mMeeting.setHour(calendar);
+        mTextViewHour.setText(mMeeting.getStringHour());
     }
 
-    public void setTextViewDuration(int hour, int minutes){
-        if (hour > 0){
-            if (minutes == 0){
-                mTextViewDuration.setText(hour + "h");
-            } else {
-                mTextViewDuration.setText(hour + "h" + String.format("%02d", minutes));
-            }
-        } else {
-            mTextViewDuration.setText(String.format("%02d", minutes) + "min");
-        }
+    public void setTextViewDuration(int hour, int minute){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        mMeeting.setDuration(calendar);
+        mTextViewDuration.setText(mMeeting.getStringDuration());
     }
 
     @Override

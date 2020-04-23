@@ -74,8 +74,6 @@ public class MeetingsListActivity extends AppCompatActivity
         mTextViewEmptyView = findViewById(R.id.activity_meetings_list_txt_empty_view);
         mToolbar = findViewById(R.id.activity_meetings_list_toolbar);
         mChipGroupFilters = findViewById(R.id.activity_meetings_list_chip_group_filters);
-
-
         // Orientation LandScape
         mLinearLayoutContainer = findViewById(R.id.activity_meetings_list_linear_layout_container);
         mTextViewMembersList = findViewById(R.id.fragment_member_list_text_view);
@@ -90,19 +88,15 @@ public class MeetingsListActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new MeetingsRecyclerViewAdapter(mMeetingsList);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
         initList();
-
         mBtnAddMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openMeetingCreatorActivity();
             }
         });
-
     }
 
     @Override
@@ -179,7 +173,7 @@ public class MeetingsListActivity extends AppCompatActivity
                     if (filtersList.get(j).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase())){
                         filtered = true;
                     }
-                    if (filtersList.get(j).toLowerCase().equals(initialList.get(i).getDate().toLowerCase())){
+                    if (filtersList.get(j).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase())){
                         filtered = true;
                     }
                 }

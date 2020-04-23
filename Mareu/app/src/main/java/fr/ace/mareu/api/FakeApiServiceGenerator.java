@@ -2,6 +2,7 @@ package fr.ace.mareu.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
@@ -32,52 +33,57 @@ public abstract class FakeApiServiceGenerator {
     );
 
     public static List<Meeting> fakeMeetingsList =  Arrays.asList(
-
-            new Meeting(
-                    "Réunion A",
-                    "Peach",
-                    "Vendredi 17 avril 2020",
-                    "14h00",
-                    "1h",
-                    new ArrayList<>(Arrays.asList(
-                            ("maxime@lamzone.com"),
-                            ("alex@lamzone.com")
-                    ))
-            ),
-            new Meeting(
-                    "Réunion B",
-                    "Mario",
-                    "Lundi 20 avril 2020",
-                    "16h00",
-                    "1h",
-                    new ArrayList<>(Arrays.asList(
-                            ("paul@lamzone.com"),
-                            ("viviane@lamzone.com")
-                    ))
-            ),
-            new Meeting(
-                    "Réunion C",
-                    "Luigi",
-                    "Lundi 20 avril 2020",
-                    "19h00",
-                    "1h30",
-                    new ArrayList<>(Arrays.asList(
-                            ("amandine@lamzone.com"),
-                            ("luc@lamzone.com")
-                    ))
-            ),
-            new Meeting(
-                    "Réunion D",
-                    "Luigi",
-                    "Mardi 21 avril 2020",
-                    "19h00",
-                    "1h30",
-                    new ArrayList<>(Arrays.asList(
-                            ("amandine@lamzone.com"),
-                            ("luc@lamzone.com")
-                    ))
-            )
-
+//            new Meeting(
+//                    "Réunion A",
+//                    "Peach",
+//                    new Calendar() {
+//                        @Override
+//                        protected void computeTime() {
+//
+//                        }
+//
+//                        @Override
+//                        protected void computeFields() {
+//
+//                        }
+//
+//                        @Override
+//                        public void add(int i, int i1) {
+//
+//                        }
+//
+//                        @Override
+//                        public void roll(int i, boolean b) {
+//
+//                        }
+//
+//                        @Override
+//                        public int getMinimum(int i) {
+//                            return 0;
+//                        }
+//
+//                        @Override
+//                        public int getMaximum(int i) {
+//                            return 0;
+//                        }
+//
+//                        @Override
+//                        public int getGreatestMinimum(int i) {
+//                            return 0;
+//                        }
+//
+//                        @Override
+//                        public int getLeastMaximum(int i) {
+//                            return 0;
+//                        }
+//                    }"Vendredi 17 avril 2020",
+//                    "14h00",
+//                    "1h",
+//                    new ArrayList<>(Arrays.asList(
+//                            ("maxime@lamzone.com"),
+//                            ("alex@lamzone.com")
+//                    ))
+//            )
     );
 
     public static ArrayList<String> generateMembersReminderList() {

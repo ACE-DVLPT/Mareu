@@ -30,7 +30,6 @@ import com.google.android.material.chip.ChipGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -178,8 +177,8 @@ public class MeetingCreatorActivity
             @Override
             public void onClick(View view) {
                 if (allFieldsCompleted()) {
-                    if (noDuplicateMeeting()) {
-                        passCharacters();
+                    passCharacters(mMeeting);
+                    if (mApiService.checkNoDuplicateMeeting(mMeeting)) {
                         EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
                         finish();
                     } else {
@@ -212,12 +211,6 @@ public class MeetingCreatorActivity
         } else {
             result = true;
         }
-        return result;
-    }
-    
-    public Boolean noDuplicateMeeting(){
-        Boolean result = true;
-
         return result;
     }
 
@@ -284,10 +277,10 @@ public class MeetingCreatorActivity
         mChipGroupEmail.removeView(chip);
     }
 
-    private void passCharacters() {
-        mMeeting.setTopic(mEditTextTopic.getText().toString());
-        mMeeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
-        mMeeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
+    private void passCharacters(Meeting meeting) {
+        meeting.setTopic(mEditTextTopic.getText().toString());
+        meeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
+        meeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
     }
 
     @Override
@@ -310,8 +303,8 @@ public class MeetingCreatorActivity
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        mMeeting.setHour(calendar);
-        mTextViewHour.setText(mMeeting.getStringHour());
+        mMeeting.setStartTime(calendar);
+        mTextViewHour.setText(mMeeting.getStringStartTime());
     }
 
     public void setTextViewDuration(int hour, int minute){

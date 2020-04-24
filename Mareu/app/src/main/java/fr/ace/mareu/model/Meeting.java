@@ -10,8 +10,9 @@ public class Meeting {
     private String mPlace;
     private Calendar mDate;
     private String mStringDate;
-    private Calendar mHour;
-    private String mStringHour;
+    private Calendar mStartTime;
+    private String mStringStartTime;
+    private Calendar mEndTime;
     private Calendar mDuration;
     private String mStringDuration;
     private ArrayList<String> mMembers;
@@ -20,7 +21,7 @@ public class Meeting {
         mTopic = topic;
         mPlace = place;
         mDate = date;
-        mHour = hour;
+        mStartTime = hour;
         mDuration = duration;
         mMembers = members;
     }
@@ -54,17 +55,25 @@ public class Meeting {
         return mStringDate;
     }
 
-    public Calendar getHour() {
-        return mHour;
+    public Calendar getStartTime() {
+        return mStartTime;
     }
 
-    public void setHour(Calendar hour) {
-        mHour = hour;
+    public void setStartTime(Calendar startTime) {
+        mStartTime = startTime;
     }
 
-    public String getStringHour() {
-        mStringHour = String.format("%02d",mHour.get(Calendar.HOUR_OF_DAY)) + "h" + String.format("%02d",mHour.get(Calendar.MINUTE));
-        return mStringHour;
+    public String getStringStartTime() {
+        mStringStartTime = String.format("%02d", mStartTime.get(Calendar.HOUR_OF_DAY)) + "h" + String.format("%02d", mStartTime.get(Calendar.MINUTE));
+        return mStringStartTime;
+    }
+
+    public Calendar getEndTime(){
+        mEndTime = Calendar.getInstance();
+        mEndTime.setTime(mStartTime.getTime());
+        mEndTime.add(Calendar.HOUR_OF_DAY, mDuration.get(Calendar.HOUR));
+        mEndTime.add(Calendar.MINUTE, mDuration.get(Calendar.MINUTE));
+        return mEndTime;
     }
 
     public Calendar getDuration() {

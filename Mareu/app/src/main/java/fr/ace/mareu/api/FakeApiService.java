@@ -1,5 +1,6 @@
 package fr.ace.mareu.api;
 
+
 import java.util.ArrayList;
 
 import fr.ace.mareu.model.Meeting;
@@ -43,20 +44,33 @@ public class FakeApiService implements ApiService {
 
     @Override
     public Boolean checkNoDuplicateMeeting(Meeting meeting) {
-        Boolean result = false;
+        return !meetingIsDuplicated(meeting, mMeetingsList);
+    }
 
-        for (int i = 0 ; i < mMeetingsList.size() ; i++){
-            if(
-                    meeting.getPlace().equals(mMeetingsList.get(i).getPlace()) &
-                    meeting.getDate().equals(mMeetingsList.get(i).getDate())
-                    //TODO
-            ){
-                result = true;
-            } else{
-                result = false;
+    // TODO : unit test
+    public Boolean meetingIsDuplicated(Meeting meeting, ArrayList<Meeting> meetingsList){
+        Boolean result;
+        int count = 0;
+        if (meetingsList.isEmpty()){
+        } else {
+            for (int i = 0 ; i < meetingsList.size() ; i++){
+                if(
+                        meeting.getPlace().equals(meetingsList.get(i).getPlace()) &
+                        (meeting.getStringDate().equals(meetingsList.get(i).getStringDate())) &
+                        ((meeting.getStartTime().compareTo(meetingsList.get(i).getStartTime()) == 1 & (meeting.getStartTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
+                                ((meeting.getEndTime().compareTo(meetingsList.get(i).getStartTime()) == 1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
+                                ((meeting.getStartTime().compareTo(meetingsList.get(i).getStartTime()) == -1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)))
+                ){
+                    count++;
+                }
             }
         }
-
+        if (count != 0){
+            result = true;
+        } else {
+            result = false;
+        }
         return result;
     }
 }
+

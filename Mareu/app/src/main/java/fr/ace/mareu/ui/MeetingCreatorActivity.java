@@ -178,7 +178,7 @@ public class MeetingCreatorActivity
             public void onClick(View view) {
                 if (allFieldsCompleted()) {
                     passCharacters(mMeeting);
-                    if (mApiService.checkNoDuplicateMeeting(mMeeting)) {
+                    if (mApiService.checkIfNoDuplicationMeeting(mMeeting)) {
                         EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
                         finish();
                     } else {

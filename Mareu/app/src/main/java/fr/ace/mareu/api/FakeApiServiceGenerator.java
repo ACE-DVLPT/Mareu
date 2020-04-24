@@ -36,47 +36,8 @@ public abstract class FakeApiServiceGenerator {
 //            new Meeting(
 //                    "Réunion A",
 //                    "Peach",
-//                    new Calendar() {
-//                        @Override
-//                        protected void computeTime() {
-//
-//                        }
-//
-//                        @Override
-//                        protected void computeFields() {
-//
-//                        }
-//
-//                        @Override
-//                        public void add(int i, int i1) {
-//
-//                        }
-//
-//                        @Override
-//                        public void roll(int i, boolean b) {
-//
-//                        }
-//
-//                        @Override
-//                        public int getMinimum(int i) {
-//                            return 0;
-//                        }
-//
-//                        @Override
-//                        public int getMaximum(int i) {
-//                            return 0;
-//                        }
-//
-//                        @Override
-//                        public int getGreatestMinimum(int i) {
-//                            return 0;
-//                        }
-//
-//                        @Override
-//                        public int getLeastMaximum(int i) {
-//                            return 0;
-//                        }
-//                    }"Vendredi 17 avril 2020",
+//                    new Calendar()
+//                    "Vendredi 17 avril 2020",
 //                    "14h00",
 //                    "1h",
 //                    new ArrayList<>(Arrays.asList(

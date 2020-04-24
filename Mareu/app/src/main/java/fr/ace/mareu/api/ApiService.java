@@ -9,16 +9,16 @@ public interface ApiService {
 
 ArrayList<Meeting> getMeetingsList();
 
+ArrayList<Meeting> getMeetingsListFiltered(ArrayList<String> filtersList);
+
 ArrayList<String> getMembersReminderList();
 
 ArrayList<MeetingRoom> getMeetingRoomList();
-
-void addMemberToMembersReminderList(String member);
 
 void addMeeting(Meeting meeting);
 
 void deleteMeeting(Meeting meeting);
 
-Boolean checkNoDuplicateMeeting(Meeting meeting);
+Boolean checkIfNoDuplicationMeeting(Meeting meeting);
 
 }

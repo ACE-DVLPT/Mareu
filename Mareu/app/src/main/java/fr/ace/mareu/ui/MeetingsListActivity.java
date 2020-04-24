@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -52,7 +53,8 @@ public class MeetingsListActivity extends AppCompatActivity
     TextView mTextViewEmptyView;
     Toolbar mToolbar;
     ChipGroup mChipGroupFilters;
-
+    Boolean mPlaceFilterAlreadyExist = false;
+    Boolean mDateFilterAlreadyExist = false;
 
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
@@ -128,12 +130,20 @@ public class MeetingsListActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_filter_place:
-                DialogFragment placeDialog = new PlaceFilterDialogFragment();
-                placeDialog.show(getSupportFragmentManager(), "placeDialog");
+                if (mPlaceFilterAlreadyExist){
+                    Toast.makeText(this, "Le filtre par salle est déjà actif\nMerci de le supprimer avant d'en créer un nouveau", Toast.LENGTH_LONG).show();
+                } else {
+                    DialogFragment placeDialog = new PlaceFilterDialogFragment();
+                    placeDialog.show(getSupportFragmentManager(), "placeDialog");
+                }
                 return true;
             case R.id.menu_filter_date:
-                DialogFragment dateDialog = new DateDialogFragment();
-                dateDialog.show(getSupportFragmentManager(), "dateDialog");
+                if (mDateFilterAlreadyExist){
+                    Toast.makeText(this, "Le filtre par date est déjà actif\nMerci de le supprimer avant d'en créer un nouveau", Toast.LENGTH_LONG).show();
+                } else {
+                    DialogFragment dateDialog = new DateDialogFragment();
+                    dateDialog.show(getSupportFragmentManager(), "dateDialog");
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -141,6 +151,7 @@ public class MeetingsListActivity extends AppCompatActivity
 
     @Override
     public void onPlaceSet(String place) {
+        mPlaceFilterAlreadyExist = true;
         mFiltersList.add(place);
         addFilterToChipGroup(place);
         initList();
@@ -154,37 +165,12 @@ public class MeetingsListActivity extends AppCompatActivity
         calendar.set(Calendar.DAY_OF_MONTH, day);
         String dateString = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
+        mDateFilterAlreadyExist = true;
         mFiltersList.add(dateString.toLowerCase());
         addFilterToChipGroup(dateString);
         initList();
     }
-
-    public ArrayList<Meeting> listOfMeetingsToDisplay(ArrayList<Meeting> initialList, ArrayList<String> filtersList){
-        ArrayList<Meeting> finalList = new ArrayList<>();
-
-        if(filtersList.isEmpty()){
-            finalList = initialList;
-        } else {
-            for (int i = 0 ; i < initialList.size() ; i++){
-
-                Boolean filtered = false;
-
-                for (int j = 0 ; j < filtersList.size() ; j++){
-                    if (filtersList.get(j).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase())){
-                        filtered = true;
-                    }
-                    if (filtersList.get(j).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase())){
-                        filtered = true;
-                    }
-                }
-                if (filtered){
-                    finalList.add(initialList.get(i));
-                }
-            }
-        }
-        return finalList;
-    }
-
+    
     public void addFilterToChipGroup(String filter){
         Chip chip = new Chip(this);
         chip.setText(filter);
@@ -200,10 +186,21 @@ public class MeetingsListActivity extends AppCompatActivity
     public void onClick(View view) {
         Chip chip = (Chip) view;
         mChipGroupFilters.removeView(chip);
+        Boolean placeFilterRemoved = false;
         for (int i = 0 ; i < mFiltersList.size() ; i++){
             if (chip.getText().toString() == mFiltersList.get(i)){
+                for (int j = 0 ; j < mApiService.getMeetingRoomList().size() ; j++){
+                    if (mApiService.getMeetingRoomList().get(j).getName().equals(mFiltersList.get(i))){
+                        placeFilterRemoved = true;
+                    }
+                }
                 mFiltersList.remove(i);
             }
+        }
+        if (placeFilterRemoved){
+            mPlaceFilterAlreadyExist = false;
+        }else {
+            mDateFilterAlreadyExist = false;
         }
         initList();
     }
@@ -258,7 +255,7 @@ public class MeetingsListActivity extends AppCompatActivity
 
     public void initList() {
         mMeetingsList.clear();
-        mMeetingsList.addAll(listOfMeetingsToDisplay(mApiService.getMeetingsList(),mFiltersList));
+        mMeetingsList.addAll(mApiService.getMeetingsListFiltered(mFiltersList));
         mAdapter.notifyDataSetChanged();
         displayMessageIfRecyclerViewIsEmpty();
 

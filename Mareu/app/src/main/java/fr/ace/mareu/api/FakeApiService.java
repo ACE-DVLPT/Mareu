@@ -1,6 +1,7 @@
 package fr.ace.mareu.api;
 
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import fr.ace.mareu.model.Meeting;
@@ -18,6 +19,11 @@ public class FakeApiService implements ApiService {
     }
 
     @Override
+    public ArrayList<Meeting> getMeetingsListFiltered(ArrayList<String> filtersList) {
+        return listFiltered(mMeetingsList,filtersList);
+    }
+
+    @Override
     public ArrayList<String> getMembersReminderList() {
         return mMembersReminderList;
     }
@@ -25,11 +31,6 @@ public class FakeApiService implements ApiService {
     @Override
     public ArrayList<MeetingRoom> getMeetingRoomList() {
         return mMeetingRoomsList;
-    }
-
-    @Override
-    public void addMemberToMembersReminderList(String member) {
-        mMembersReminderList.add(member);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class FakeApiService implements ApiService {
     }
 
     @Override
-    public Boolean checkNoDuplicateMeeting(Meeting meeting) {
+    public Boolean checkIfNoDuplicationMeeting(Meeting meeting) {
         return !meetingIsDuplicated(meeting, mMeetingsList);
     }
 
@@ -71,6 +72,32 @@ public class FakeApiService implements ApiService {
             result = false;
         }
         return result;
+    }
+
+    // TODO : unit test
+    public ArrayList<Meeting> listFiltered(ArrayList<Meeting> initialList, ArrayList<String> filtersList){
+        ArrayList<Meeting> finalList = new ArrayList<>();
+
+        if (filtersList.size() == 1){
+            for (int i = 0 ; i < initialList.size() ; i++){
+                if(filtersList.get(0).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase()) ||
+                        (filtersList.get(0).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase()))){
+                    finalList.add(initialList.get(i));
+                }
+            }
+        } else if (filtersList.size() == 2){
+            for (int i = 0 ; i < initialList.size() ; i++){
+                if((filtersList.get(0).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase()) ||
+                        (filtersList.get(0).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase()))) &&
+                        (filtersList.get(1).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase()) ||
+                                (filtersList.get(1).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase())))){
+                    finalList.add(initialList.get(i));
+                }
+            }
+        } else {
+            finalList = initialList;
+        }
+        return finalList;
     }
 }
 

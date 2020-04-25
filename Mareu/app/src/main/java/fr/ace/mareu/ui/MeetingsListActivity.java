@@ -10,7 +10,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -255,7 +254,7 @@ public class MeetingsListActivity extends AppCompatActivity
 
     public void initList() {
         mMeetingsList.clear();
-        mMeetingsList.addAll(mApiService.getMeetingsListFiltered(mFiltersList));
+        mMeetingsList.addAll(mApiService.getMeetingsList(mFiltersList));
         mAdapter.notifyDataSetChanged();
         displayMessageIfRecyclerViewIsEmpty();
 

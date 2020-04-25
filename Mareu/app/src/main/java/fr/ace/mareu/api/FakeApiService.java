@@ -1,8 +1,13 @@
 package fr.ace.mareu.api;
 
 
+
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
@@ -14,12 +19,7 @@ public class FakeApiService implements ApiService {
     private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.generateMeetingRoomsList();
 
     @Override
-    public ArrayList<Meeting> getMeetingsList() {
-        return mMeetingsList;
-    }
-
-    @Override
-    public ArrayList<Meeting> getMeetingsListFiltered(ArrayList<String> filtersList) {
+    public ArrayList<Meeting> getMeetingsList(ArrayList<String> filtersList) {
         return listFiltered(mMeetingsList,filtersList);
     }
 
@@ -97,7 +97,37 @@ public class FakeApiService implements ApiService {
         } else {
             finalList = initialList;
         }
+        removeMeetingWhenDateHasPassed(finalList);
+        sortMeetings(finalList);
         return finalList;
+    }
+
+    public ArrayList<Meeting> sortMeetings(ArrayList<Meeting> meetingsList) {
+
+        Collections.sort(meetingsList, new Comparator<Meeting>() {
+            @Override
+            public int compare(Meeting meeting01, Meeting meeting02) {
+                if(meeting01.getDate().get(Calendar.DATE) == (meeting02.getDate().get(Calendar.DATE))){
+                    return meeting01.getStartTime().getTime().compareTo(meeting02.getStartTime().getTime());
+                } else {
+                    return meeting01.getDate().getTime().compareTo(meeting02.getDate().getTime());
+                }
+            }
+        });
+        return meetingsList;
+    }
+
+    public ArrayList<Meeting> removeMeetingWhenDateHasPassed(ArrayList<Meeting> meetingsList) {
+        Calendar todayDate = Calendar.getInstance();
+        todayDate.setTime(new Date());
+        for (int i = 0 ; i < meetingsList.size() ; i++) {
+            if((DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getDateInstance(DateFormat.FULL).format(meetingsList.get(i).getDate().getTime())) < 0) ||
+                    (DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).equals(DateFormat.getDateInstance(DateFormat.FULL).format(meetingsList.get(i).getDate().getTime()))) &&
+                            (DateFormat.getTimeInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getTimeInstance(DateFormat.FULL).format(meetingsList.get(i).getEndTime().getTime())) > 0)){
+                meetingsList.remove(i);
+            }
+        }
+        return meetingsList;
     }
 }
 

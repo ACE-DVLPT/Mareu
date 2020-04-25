@@ -30,9 +30,11 @@ import com.google.android.material.chip.ChipGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fr.ace.mareu.R;
@@ -176,16 +178,14 @@ public class MeetingCreatorActivity
         mButtonValidation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (allFieldsCompleted()) {
-                    passCharacters(mMeeting);
+                if (allFieldsCompleted()){
+                    passPrarmeters(mMeeting);
                     if (mApiService.checkIfNoDuplicationMeeting(mMeeting)) {
                         EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
                         finish();
                     } else {
-                        Toast.makeText(MeetingCreatorActivity.this, "Attention la salle de réunion est déjà prise sur ce créneau", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MeetingCreatorActivity.this, "Attention : la salle de réunion est déjà prise", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(MeetingCreatorActivity.this, "Attention tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -199,7 +199,9 @@ public class MeetingCreatorActivity
     }
     
     public Boolean allFieldsCompleted(){
-        Boolean result;
+        Boolean result = false;
+        Calendar todayDate = Calendar.getInstance();
+        todayDate.setTime(new Date());
         if (
                 mEditTextTopic.getText().toString().equals("") ||
                 mSpinnerPlace.getSelectedItem() == mSpinnerPlace.getItemAtPosition(0) ||
@@ -207,7 +209,11 @@ public class MeetingCreatorActivity
                 mTextViewHour.getText().toString().equals("") ||
                 mTextViewDuration.getText().toString().equals("")
         ){
-            result = false;
+            Toast.makeText(MeetingCreatorActivity.this, "Attention  : tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
+        } else if ((DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getDateInstance(DateFormat.FULL).format(mMeeting.getDate().getTime())) < 0) ||
+                (DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).equals(DateFormat.getDateInstance(DateFormat.FULL).format(mMeeting.getDate().getTime()))) &&
+                        (DateFormat.getTimeInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getTimeInstance(DateFormat.FULL).format(mMeeting.getEndTime().getTime())) > 0)) {
+            Toast.makeText(MeetingCreatorActivity.this, "Attention : la date est inférieure à celle d'aujourd'hui", Toast.LENGTH_SHORT).show();
         } else {
             result = true;
         }
@@ -277,7 +283,7 @@ public class MeetingCreatorActivity
         mChipGroupEmail.removeView(chip);
     }
 
-    private void passCharacters(Meeting meeting) {
+    private void passPrarmeters(Meeting meeting) {
         meeting.setTopic(mEditTextTopic.getText().toString());
         meeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
         meeting.setMembers(getTextFromChipGroup(mChipGroupEmail));

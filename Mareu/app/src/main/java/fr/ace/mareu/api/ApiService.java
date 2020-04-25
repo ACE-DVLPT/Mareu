@@ -7,9 +7,7 @@ import fr.ace.mareu.model.MeetingRoom;
 
 public interface ApiService {
 
-ArrayList<Meeting> getMeetingsList();
-
-ArrayList<Meeting> getMeetingsListFiltered(ArrayList<String> filtersList);
+ArrayList<Meeting> getMeetingsList(ArrayList<String> filtersList);
 
 ArrayList<String> getMembersReminderList();
 

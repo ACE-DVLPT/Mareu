@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -31,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -88,7 +90,7 @@ public class MeetingCreatorActivity
 
         // Data
         mApiService = DI.getApiService();
-        mMeeting = new Meeting(null, null, null, null, null, new ArrayList<>(Arrays.asList((""))));
+        mMeeting = new Meeting(null, null, initCalendar(), initCalendar(), new ArrayList<>(Arrays.asList((""))));
 
         setToolbar();
         setMeetingRoomList();
@@ -112,6 +114,19 @@ public class MeetingCreatorActivity
     public void setToolbar() {
         mToolbar.setTitle("Création d'une Réunion");
         setSupportActionBar(mToolbar);
+    }
+
+    public Calendar initCalendar(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 0);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
     }
 
     public void setMemberReminderList(){
@@ -179,7 +194,7 @@ public class MeetingCreatorActivity
             @Override
             public void onClick(View view) {
                 if (allFieldsCompleted()){
-                    passPrarmeters(mMeeting);
+                    passParameters(mMeeting);
                     if (mApiService.checkIfNoDuplicationMeeting(mMeeting)) {
                         EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
                         finish();
@@ -201,7 +216,7 @@ public class MeetingCreatorActivity
     public Boolean allFieldsCompleted(){
         Boolean result = false;
         Calendar todayDate = Calendar.getInstance();
-        todayDate.setTime(new Date());
+
         if (
                 mEditTextTopic.getText().toString().equals("") ||
                 mSpinnerPlace.getSelectedItem() == mSpinnerPlace.getItemAtPosition(0) ||
@@ -210,10 +225,8 @@ public class MeetingCreatorActivity
                 mTextViewDuration.getText().toString().equals("")
         ){
             Toast.makeText(MeetingCreatorActivity.this, "Attention  : tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
-        } else if ((DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getDateInstance(DateFormat.FULL).format(mMeeting.getDate().getTime())) < 0) ||
-                (DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).equals(DateFormat.getDateInstance(DateFormat.FULL).format(mMeeting.getDate().getTime()))) &&
-                        (DateFormat.getTimeInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getTimeInstance(DateFormat.FULL).format(mMeeting.getEndTime().getTime())) > 0)) {
-            Toast.makeText(MeetingCreatorActivity.this, "Attention : la date est inférieure à celle d'aujourd'hui", Toast.LENGTH_SHORT).show();
+        } else if (((mMeeting.getEndTime()).compareTo(todayDate)) < 0){
+            Toast.makeText(MeetingCreatorActivity.this, "Attention : date ou heure dépassée", Toast.LENGTH_SHORT).show();
         } else {
             result = true;
         }
@@ -283,7 +296,7 @@ public class MeetingCreatorActivity
         mChipGroupEmail.removeView(chip);
     }
 
-    private void passPrarmeters(Meeting meeting) {
+    private void passParameters(Meeting meeting) {
         meeting.setTopic(mEditTextTopic.getText().toString());
         meeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
         meeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
@@ -300,6 +313,10 @@ public class MeetingCreatorActivity
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, mMeeting.getDate().get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, mMeeting.getDate().get(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         mMeeting.setDate(calendar);
         mTextViewDate.setText(mMeeting.getStringDate());
     }
@@ -307,16 +324,26 @@ public class MeetingCreatorActivity
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, mMeeting.getDate().get(Calendar.YEAR));
+        calendar.set(Calendar.MONTH, mMeeting.getDate().get(Calendar.MONTH));
+        calendar.set(Calendar.DAY_OF_MONTH, mMeeting.getDate().get(Calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        mMeeting.setStartTime(calendar);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        mMeeting.setDate(calendar);
         mTextViewHour.setText(mMeeting.getStringStartTime());
     }
 
     public void setTextViewDuration(int hour, int minute){
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 0);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
         calendar.set(Calendar.HOUR, hour);
         calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         mMeeting.setDuration(calendar);
         mTextViewDuration.setText(mMeeting.getStringDuration());
     }

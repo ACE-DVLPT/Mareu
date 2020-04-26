@@ -58,9 +58,9 @@ public class FakeApiService implements ApiService {
                 if(
                         meeting.getPlace().equals(meetingsList.get(i).getPlace()) &
                         (meeting.getStringDate().equals(meetingsList.get(i).getStringDate())) &
-                        ((meeting.getStartTime().compareTo(meetingsList.get(i).getStartTime()) == 1 & (meeting.getStartTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
-                                ((meeting.getEndTime().compareTo(meetingsList.get(i).getStartTime()) == 1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
-                                ((meeting.getStartTime().compareTo(meetingsList.get(i).getStartTime()) == -1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)))
+                        ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == 1 & (meeting.getDate().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
+                                ((meeting.getEndTime().compareTo(meetingsList.get(i).getDate()) == 1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
+                                ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == -1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)))
                 ){
                     count++;
                 }
@@ -107,11 +107,7 @@ public class FakeApiService implements ApiService {
         Collections.sort(meetingsList, new Comparator<Meeting>() {
             @Override
             public int compare(Meeting meeting01, Meeting meeting02) {
-                if(meeting01.getDate().get(Calendar.DATE) == (meeting02.getDate().get(Calendar.DATE))){
-                    return meeting01.getStartTime().getTime().compareTo(meeting02.getStartTime().getTime());
-                } else {
-                    return meeting01.getDate().getTime().compareTo(meeting02.getDate().getTime());
-                }
+                return meeting01.getDate().compareTo(meeting02.getDate());
             }
         });
         return meetingsList;
@@ -119,11 +115,9 @@ public class FakeApiService implements ApiService {
 
     public ArrayList<Meeting> removeMeetingWhenDateHasPassed(ArrayList<Meeting> meetingsList) {
         Calendar todayDate = Calendar.getInstance();
-        todayDate.setTime(new Date());
+
         for (int i = 0 ; i < meetingsList.size() ; i++) {
-            if((DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getDateInstance(DateFormat.FULL).format(meetingsList.get(i).getDate().getTime())) < 0) ||
-                    (DateFormat.getDateInstance(DateFormat.FULL).format(todayDate.getTime()).equals(DateFormat.getDateInstance(DateFormat.FULL).format(meetingsList.get(i).getDate().getTime()))) &&
-                            (DateFormat.getTimeInstance(DateFormat.FULL).format(todayDate.getTime()).compareTo(DateFormat.getTimeInstance(DateFormat.FULL).format(meetingsList.get(i).getEndTime().getTime())) > 0)){
+            if((meetingsList.get(i).getEndTime().compareTo(todayDate)) < 0){
                 meetingsList.remove(i);
             }
         }

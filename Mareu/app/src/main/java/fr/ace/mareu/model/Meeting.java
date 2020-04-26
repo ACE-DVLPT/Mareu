@@ -10,18 +10,16 @@ public class Meeting {
     private String mPlace;
     private Calendar mDate;
     private String mStringDate;
-    private Calendar mStartTime;
     private String mStringStartTime;
     private Calendar mEndTime;
     private Calendar mDuration;
     private String mStringDuration;
     private ArrayList<String> mMembers;
 
-    public Meeting(String topic, String place, Calendar date, Calendar hour, Calendar duration, ArrayList<String> members) {
+    public Meeting(String topic, String place, Calendar date, Calendar duration, ArrayList<String> members) {
         mTopic = topic;
         mPlace = place;
         mDate = date;
-        mStartTime = hour;
         mDuration = duration;
         mMembers = members;
     }
@@ -55,22 +53,14 @@ public class Meeting {
         return mStringDate;
     }
 
-    public Calendar getStartTime() {
-        return mStartTime;
-    }
-
-    public void setStartTime(Calendar startTime) {
-        mStartTime = startTime;
-    }
-
     public String getStringStartTime() {
-        mStringStartTime = String.format("%02d", mStartTime.get(Calendar.HOUR_OF_DAY)) + "h" + String.format("%02d", mStartTime.get(Calendar.MINUTE));
+        mStringStartTime = String.format("%02d", mDate.get(Calendar.HOUR_OF_DAY)) + "h" + String.format("%02d", mDate.get(Calendar.MINUTE));
         return mStringStartTime;
     }
 
     public Calendar getEndTime(){
         mEndTime = Calendar.getInstance();
-        mEndTime.setTime(mStartTime.getTime());
+        mEndTime.setTime(mDate.getTime());
         mEndTime.add(Calendar.HOUR_OF_DAY, mDuration.get(Calendar.HOUR));
         mEndTime.add(Calendar.MINUTE, mDuration.get(Calendar.MINUTE));
         return mEndTime;
@@ -104,4 +94,5 @@ public class Meeting {
     public void setMembers(ArrayList<String> members) {
         mMembers = members;
     }
+
 }

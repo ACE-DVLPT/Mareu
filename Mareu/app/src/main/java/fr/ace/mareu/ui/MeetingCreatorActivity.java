@@ -199,7 +199,7 @@ public class MeetingCreatorActivity
                         EventBus.getDefault().post(new AddMeetingEvent(mMeeting));
                         finish();
                     } else {
-                        Toast.makeText(MeetingCreatorActivity.this, "Attention : la salle de réunion est déjà prise", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MeetingCreatorActivity.this, "La salle de réunion est déjà prise", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -224,9 +224,9 @@ public class MeetingCreatorActivity
                 mTextViewHour.getText().toString().equals("") ||
                 mTextViewDuration.getText().toString().equals("")
         ){
-            Toast.makeText(MeetingCreatorActivity.this, "Attention  : tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MeetingCreatorActivity.this, "Tous les champs ne sont pas renseignés", Toast.LENGTH_SHORT).show();
         } else if (((mMeeting.getEndTime()).compareTo(todayDate)) < 0){
-            Toast.makeText(MeetingCreatorActivity.this, "Attention : date ou heure dépassée", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MeetingCreatorActivity.this, "Date ou heure dépassée", Toast.LENGTH_SHORT).show();
         } else {
             result = true;
         }
@@ -274,7 +274,7 @@ public class MeetingCreatorActivity
     public Boolean checkEmailStructure(String string){
         boolean emailValid = false;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        String emailErrorMessage = "Veuillez saisir une adresse email valide";
+        String emailErrorMessage = "Adresse email non valide";
 
         if (string.isEmpty()){
             Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();

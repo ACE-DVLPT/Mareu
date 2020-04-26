@@ -1,13 +1,10 @@
 package fr.ace.mareu.api;
 
-
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
@@ -58,9 +55,12 @@ public class FakeApiService implements ApiService {
                 if(
                         meeting.getPlace().equals(meetingsList.get(i).getPlace()) &
                         (meeting.getStringDate().equals(meetingsList.get(i).getStringDate())) &
-                        ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == 1 & (meeting.getDate().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
-                                ((meeting.getEndTime().compareTo(meetingsList.get(i).getDate()) == 1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
-                                ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == -1) & (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)))
+                                (((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == -1) && (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)) ||
+                                        ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == -1) && (meeting.getEndTime().compareTo(meetingsList.get(i).getDate()) == 1)) ||
+                                        ((meeting.getDate().compareTo(meetingsList.get(i).getEndTime()) == -1) && (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 1)) ||
+                                        ((meeting.getDate().compareTo(meetingsList.get(i).getDate()) == 1) && (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == -1)) ||
+                                        (meeting.getDate().compareTo(meetingsList.get(i).getDate()) == 0) ||
+                                        (meeting.getEndTime().compareTo(meetingsList.get(i).getEndTime()) == 0))
                 ){
                     count++;
                 }

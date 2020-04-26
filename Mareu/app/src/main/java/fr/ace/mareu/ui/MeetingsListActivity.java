@@ -130,7 +130,7 @@ public class MeetingsListActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.menu_filter_place:
                 if (mPlaceFilterAlreadyExist){
-                    Toast.makeText(this, "Le filtre par salle est déjà actif\nMerci de le supprimer avant d'en créer un nouveau", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Le filtre par salle est déjà actif", Toast.LENGTH_SHORT).show();
                 } else {
                     DialogFragment placeDialog = new PlaceFilterDialogFragment();
                     placeDialog.show(getSupportFragmentManager(), "placeDialog");
@@ -138,7 +138,7 @@ public class MeetingsListActivity extends AppCompatActivity
                 return true;
             case R.id.menu_filter_date:
                 if (mDateFilterAlreadyExist){
-                    Toast.makeText(this, "Le filtre par date est déjà actif\nMerci de le supprimer avant d'en créer un nouveau", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Le filtre par date est déjà actif", Toast.LENGTH_SHORT).show();
                 } else {
                     DialogFragment dateDialog = new DateDialogFragment();
                     dateDialog.show(getSupportFragmentManager(), "dateDialog");

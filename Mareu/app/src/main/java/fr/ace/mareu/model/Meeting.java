@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Model object representing a meeting
+ */
 public class Meeting {
 
     private String mTopic;

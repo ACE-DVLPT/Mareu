@@ -8,7 +8,7 @@ import fr.ace.mareu.model.Meeting;
 public class AddMeetingEvent {
 
     /**
-     * Meeting to delete
+     * Meeting to add
      */
     public Meeting mMeeting;
 

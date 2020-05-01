@@ -9,43 +9,70 @@ import java.util.Comparator;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
 
+/**
+ * Mock for ApiService
+ */
 public class FakeApiService implements ApiService {
 
     private ArrayList<Meeting> mMeetingsList = FakeApiServiceGenerator.generateMeetingsList();
     private ArrayList<String> mMembersReminderList = FakeApiServiceGenerator.generateMembersReminderList();
     private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.generateMeetingRoomsList();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<Meeting> getMeetingsList(ArrayList<String> filtersList) {
-        return listFiltered(mMeetingsList,filtersList);
+        return filterTheList(mMeetingsList,filtersList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArrayList<String> getMembersReminderList() {
         return mMembersReminderList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public ArrayList<MeetingRoom> getMeetingRoomList() {
+    public ArrayList<MeetingRoom> getMeetingRoomsList() {
         return mMeetingRoomsList;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addMeeting(Meeting meeting) {
         mMeetingsList.add(meeting);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void deleteMeeting(Meeting meeting) {
+    public void removeMeeting(Meeting meeting) {
         mMeetingsList.remove(meeting);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Boolean checkIfNoDuplicationMeeting(Meeting meeting) {
         return !meetingIsDuplicated(meeting, mMeetingsList);
     }
 
     // TODO : unit test
+    /**
+     * Verifies that the meeting being tested does not interfere with another meeting on the reference list
+     * @param meeting is the instance of {@link Meeting} that must be tested
+     * @param meetingsList is the {@link ArrayList} of {@link Meeting} used in reference
+     * @return a {@link Boolean}. If the result is true,this means that the meeting room is available
+     */
     public Boolean meetingIsDuplicated(Meeting meeting, ArrayList<Meeting> meetingsList){
         Boolean result;
         int count = 0;
@@ -75,14 +102,19 @@ public class FakeApiService implements ApiService {
     }
 
     // TODO : unit test
-    public ArrayList<Meeting> listFiltered(ArrayList<Meeting> initialList, ArrayList<String> filtersList){
-        ArrayList<Meeting> finalList = new ArrayList<>();
-
+    /**
+     * Get initialList, apply filters from filtersList and return the list filtered
+     * @param initialList is the {@link ArrayList} of {@link Meeting} to filter
+     * @param filtersList is an {@link ArrayList} of {@link String} with the filters. It can contain date and/or meeting room (list can be empty)
+     * @return an {@link ArrayList} of {@link Meeting} with all meetings filtered
+     */
+    public ArrayList<Meeting> filterTheList(ArrayList<Meeting> initialList, ArrayList<String> filtersList){
+        ArrayList<Meeting> filteredList = new ArrayList<>();
         if (filtersList.size() == 1){
             for (int i = 0 ; i < initialList.size() ; i++){
                 if(filtersList.get(0).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase()) ||
                         (filtersList.get(0).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase()))){
-                    finalList.add(initialList.get(i));
+                    filteredList.add(initialList.get(i));
                 }
             }
         } else if (filtersList.size() == 2){
@@ -91,19 +123,23 @@ public class FakeApiService implements ApiService {
                         (filtersList.get(0).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase()))) &&
                         (filtersList.get(1).toLowerCase().equals(initialList.get(i).getPlace().toLowerCase()) ||
                                 (filtersList.get(1).toLowerCase().equals(DateFormat.getDateInstance(DateFormat.FULL).format(initialList.get(i).getDate().getTime()).toLowerCase())))){
-                    finalList.add(initialList.get(i));
+                    filteredList.add(initialList.get(i));
                 }
             }
         } else {
-            finalList = initialList;
+            filteredList = initialList;
         }
-        removeMeetingWhenDateHasPassed(finalList);
-        sortMeetings(finalList);
-        return finalList;
+        removeMeetingWhereTheDateHasEnded(filteredList);
+        sortMeetings(filteredList);
+        return filteredList;
     }
 
+    // TODO : unit test
+    /**
+     * @param meetingsList is the {@link ArrayList} of {@link Meeting} to sort
+     * @return the meetingsList sorted
+     */
     public ArrayList<Meeting> sortMeetings(ArrayList<Meeting> meetingsList) {
-
         Collections.sort(meetingsList, new Comparator<Meeting>() {
             @Override
             public int compare(Meeting meeting01, Meeting meeting02) {
@@ -113,9 +149,13 @@ public class FakeApiService implements ApiService {
         return meetingsList;
     }
 
-    public ArrayList<Meeting> removeMeetingWhenDateHasPassed(ArrayList<Meeting> meetingsList) {
+    // TODO : unit test
+    /**
+     * @param meetingsList is the {@link ArrayList} of {@link Meeting} to check
+     * @return the meetingsList with only meetings where the date has not ended
+     */
+    public ArrayList<Meeting> removeMeetingWhereTheDateHasEnded(ArrayList<Meeting> meetingsList) {
         Calendar todayDate = Calendar.getInstance();
-
         for (int i = 0 ; i < meetingsList.size() ; i++) {
             if((meetingsList.get(i).getEndTime().compareTo(todayDate)) < 0){
                 meetingsList.remove(i);

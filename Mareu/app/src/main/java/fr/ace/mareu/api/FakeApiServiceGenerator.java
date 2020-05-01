@@ -8,8 +8,14 @@ import java.util.List;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.model.MeetingRoom;
 
+/**
+ * Data used in the API mock
+ */
 public abstract class FakeApiServiceGenerator {
 
+    /**
+     * List of email member
+     */
     public static List<String> fakeMembersReminderList = Arrays.asList(
             ("maxime@lamzone.com"),
             ("alex@lamzone.com"),
@@ -19,42 +25,46 @@ public abstract class FakeApiServiceGenerator {
             ("luc@lamzone.com")
     );
 
+    /**
+     * List of meeting rooms
+     */
     public static List<MeetingRoom> fakeMeetingRoomsList = Arrays.asList(
-            new MeetingRoom("Peach", "blue"),
-            new MeetingRoom("Mario", "blue"),
-            new MeetingRoom("Luigi", "blue"),
-            new MeetingRoom("Toad", "blue"),
-            new MeetingRoom("Yoshi", "blue"),
-            new MeetingRoom("Daisy", "blue"),
-            new MeetingRoom("Kong", "blue"),
-            new MeetingRoom("Bowser", "blue"),
-            new MeetingRoom("Wario", "blue"),
-            new MeetingRoom("Koopa", "blue")
+            new MeetingRoom("Peach"),
+            new MeetingRoom("Mario"),
+            new MeetingRoom("Luigi"),
+            new MeetingRoom("Toad"),
+            new MeetingRoom("Yoshi"),
+            new MeetingRoom("Daisy"),
+            new MeetingRoom("Kong"),
+            new MeetingRoom("Bowser"),
+            new MeetingRoom("Wario"),
+            new MeetingRoom("Koopa")
     );
 
+    /**
+     * List of meetings displayed when opening the application
+     */
     public static List<Meeting> fakeMeetingsList =  Arrays.asList(
-//            new Meeting(
-//                    "Réunion A",
-//                    "Peach",
-//                    new Calendar()
-//                    "Vendredi 17 avril 2020",
-//                    "14h00",
-//                    "1h",
-//                    new ArrayList<>(Arrays.asList(
-//                            ("maxime@lamzone.com"),
-//                            ("alex@lamzone.com")
-//                    ))
-//            )
+            // empty
     );
 
+    /**
+     * @return fakeMembersReminderList -> an {@link ArrayList} of {@link String}
+     */
     public static ArrayList<String> generateMembersReminderList() {
         return new ArrayList<>(fakeMembersReminderList);
     }
 
+    /**
+     * @return fakeMeetingRoomsList -> an {@link ArrayList} of {@link MeetingRoom}
+     */
     public static ArrayList<MeetingRoom> generateMeetingRoomsList() {
         return new ArrayList<>(fakeMeetingRoomsList);
     }
 
+    /**
+     * @return fakeMeetingsList -> an {@link ArrayList} of {@link Meeting}
+     */
     public static ArrayList<Meeting> generateMeetingsList() {
         return new ArrayList<>(fakeMeetingsList);
     }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
-import fr.ace.mareu.utils.events.ClickOnItemInRecyclerViewEvent;
+import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
 
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRecyclerViewAdapter.ViewHolder> {
 
@@ -53,11 +53,10 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
                 index = -1;
             }
         });
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new ClickOnItemInRecyclerViewEvent(meeting, position));
+                EventBus.getDefault().post(new DisplayMeetingMembersEvent(meeting, position));
                 index = position;
                 notifyDataSetChanged();
             }
@@ -78,7 +77,6 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
 
     // ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView mImageViewColoredCircle;
         ImageView mImageViewDeleteButton;
         TextView mTextViewLine1;
@@ -99,17 +97,13 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
 
     public String setTextViewLine3(ArrayList<String> list){
         StringBuilder stringBuilder = new StringBuilder();
-
         for ( int i = 0; i < list.size(); i++){
-
             if (i == (list.size()-1)){
                 stringBuilder.append(list.get(i));
             } else {
                 stringBuilder.append(list.get(i) + ", ");
             }
         }
-
-
         String line3 = stringBuilder.toString();
         return line3;
     }

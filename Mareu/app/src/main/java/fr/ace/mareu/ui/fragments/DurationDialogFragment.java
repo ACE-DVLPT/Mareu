@@ -24,17 +24,12 @@ public class DurationDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
-
-
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_time_picker, null);
-
         mHourPicker = view.findViewById(R.id.fragment_dialog_duration_number_picker_hours);
         mMinutePicker = view.findViewById(R.id.fragment_dialog_duration_number_picker_minutes);
-
         mHourPicker.setMinValue(0);
         mHourPicker.setMaxValue(23);
-
         mMinutePicker.setMinValue(0);
         mMinutePicker.setMaxValue(59);
         mMinutePicker.setValue(45);
@@ -59,7 +54,6 @@ public class DurationDialogFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         try {
             mListener = (DurationDialogFragment.OnDurationSetListener) context;
         } catch (ClassCastException e) {

@@ -11,8 +11,7 @@ public class DI {
     private static ApiService service = new FakeApiService();
 
     /**
-     * Get an instance on ApiService
-     * @return
+     * @return service -> an instance of ApiService
      */
     public static ApiService getApiService(){
         return service;

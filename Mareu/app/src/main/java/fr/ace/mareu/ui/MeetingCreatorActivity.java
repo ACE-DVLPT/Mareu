@@ -7,7 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -31,12 +30,9 @@ import com.google.android.material.chip.ChipGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import fr.ace.mareu.R;
@@ -94,8 +90,8 @@ public class MeetingCreatorActivity
 
         setToolbar();
         setMeetingRoomList();
-        setOnClickListener();
         setMemberReminderList();
+        setOnClickListener();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
@@ -111,11 +107,9 @@ public class MeetingCreatorActivity
         EventBus.getDefault().unregister(this);
     }
 
-    public void setToolbar() {
-        mToolbar.setTitle("Création d'une Réunion");
-        setSupportActionBar(mToolbar);
-    }
-
+    /**
+     * @return a {@link Calendar} with parameters initialized by 0
+     */
     public Calendar initCalendar(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 0);
@@ -129,36 +123,34 @@ public class MeetingCreatorActivity
         return calendar;
     }
 
-    public void setMemberReminderList(){
-        mMemberReminderList = mApiService.getMembersReminderList();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1,mMemberReminderList);
-
-        mMultiAutoCompleteTextViewMembers.setAdapter(adapter);
-        mMultiAutoCompleteTextViewMembers.setTokenizer(new CustomTokenizer());
+    public void setToolbar() {
+        mToolbar.setTitle("Création d'une Réunion");
+        setSupportActionBar(mToolbar);
     }
 
     public void setMeetingRoomList(){
-        mMeetingRoomList = mApiService.getMeetingRoomList();
-
+        mMeetingRoomList = mApiService.getMeetingRoomsList();
         String defaultValue = "- Lieu -";
         if(!(mMeetingRoomList.get(0).getName() == defaultValue)){
-            mMeetingRoomList.add(0, new MeetingRoom(defaultValue,""));
+            mMeetingRoomList.add(0, new MeetingRoom(defaultValue));
         }
-
         ArrayAdapter<MeetingRoom> adapter;
         adapter= new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,mMeetingRoomList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         mSpinnerPlace.setAdapter(adapter);
-
         mSpinnerPlace.setSelection(0);
     }
 
-    public void setOnClickListener(){
+    public void setMemberReminderList(){
+        mMemberReminderList = mApiService.getMembersReminderList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,mMemberReminderList);
+        mMultiAutoCompleteTextViewMembers.setAdapter(adapter);
+        mMultiAutoCompleteTextViewMembers.setTokenizer(new CustomTokenizer());
+    }
 
+    public void setOnClickListener(){
         mTextViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,7 +208,6 @@ public class MeetingCreatorActivity
     public Boolean allFieldsCompleted(){
         Boolean result = false;
         Calendar todayDate = Calendar.getInstance();
-
         if (
                 mEditTextTopic.getText().toString().equals("") ||
                 mSpinnerPlace.getSelectedItem() == mSpinnerPlace.getItemAtPosition(0) ||
@@ -236,7 +227,6 @@ public class MeetingCreatorActivity
     public void addEmailToChipGroup(String email){
         if (checkEmailStructure(email)) {
             addEmail(email);
-
             mMultiAutoCompleteTextViewMembers.setText("");
             hideSoftKeyboard();
         }
@@ -357,5 +347,4 @@ public class MeetingCreatorActivity
     public void onAddMeetingEvent(AddMeetingEvent event){
         mApiService.addMeeting(event.mMeeting);
     }
-
 }

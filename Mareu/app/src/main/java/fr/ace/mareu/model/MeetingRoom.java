@@ -2,30 +2,19 @@ package fr.ace.mareu.model;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model object representing a meeting room
+ */
 public class MeetingRoom {
 
     private String mName;
-    private String mColor;
 
-    public MeetingRoom(String name, String color) {
+    public MeetingRoom(String name) {
         mName = name;
-        mColor = color;
     }
 
     public String getName() {
         return mName;
-    }
-
-    public void setName(String name) {
-        mName = name;
-    }
-
-    public String getColor() {
-        return mColor;
-    }
-
-    public void setColor(String color) {
-        mColor = color;
     }
 
     @NonNull

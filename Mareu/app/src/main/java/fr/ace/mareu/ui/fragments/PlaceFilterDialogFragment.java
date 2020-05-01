@@ -34,12 +34,9 @@ public class PlaceFilterDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_dialog_filter_place, null);
-
         mSpinnerPlace = view.findViewById(R.id.fragment_dialog_filter_place_spinner_place);
-
         mMeetingRoomList = new ArrayList<>();
         mApiService = DI.getApiService();
-
         setMeetingRoomList();
 
         builder.setView(view)
@@ -61,7 +58,6 @@ public class PlaceFilterDialogFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         try {
             mListener = (OnPlaceSetListener) context;
         } catch (ClassCastException e) {
@@ -71,11 +67,10 @@ public class PlaceFilterDialogFragment extends DialogFragment {
     }
 
     public void setMeetingRoomList(){
-        mMeetingRoomList = mApiService.getMeetingRoomList();
-
+        mMeetingRoomList = mApiService.getMeetingRoomsList();
         String defaultValue = "- Lieu -";
         if(!(mMeetingRoomList.get(0).getName() == defaultValue)){
-            mMeetingRoomList.add(0, new MeetingRoom(defaultValue,""));
+            mMeetingRoomList.add(0, new MeetingRoom(defaultValue));
         }
 
         ArrayAdapter<MeetingRoom> adapter;

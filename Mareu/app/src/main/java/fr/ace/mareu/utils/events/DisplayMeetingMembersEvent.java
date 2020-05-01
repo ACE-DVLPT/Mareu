@@ -3,12 +3,12 @@ package fr.ace.mareu.utils.events;
 import fr.ace.mareu.model.Meeting;
 
 /**
- * Event fired when a user delete a meeting
+ * Event fired when a user click on a meeting
  */
-public class ClickOnItemInRecyclerViewEvent {
+public class DisplayMeetingMembersEvent {
 
     /**
-     * Meeting to delete
+     * Meeting focused
      */
     public Meeting mMeeting;
     public int mListPosition;
@@ -17,7 +17,7 @@ public class ClickOnItemInRecyclerViewEvent {
      * Constructor
      * @param meeting
      */
-    public ClickOnItemInRecyclerViewEvent(Meeting meeting, int listPosition) {
+    public DisplayMeetingMembersEvent(Meeting meeting, int listPosition) {
         mMeeting = meeting;
         mListPosition = listPosition;
     }

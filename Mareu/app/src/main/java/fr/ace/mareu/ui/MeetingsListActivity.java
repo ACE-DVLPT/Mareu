@@ -39,7 +39,7 @@ import fr.ace.mareu.ui.fragments.PlaceFilterDialogFragment;
 import fr.ace.mareu.utils.di.DI;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.ui.adapters.MeetingsRecyclerViewAdapter;
-import fr.ace.mareu.utils.events.ClickOnItemInRecyclerViewEvent;
+import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
 public class MeetingsListActivity extends AppCompatActivity
@@ -192,8 +192,8 @@ public class MeetingsListActivity extends AppCompatActivity
         Boolean placeFilterRemoved = false;
         for (int i = 0 ; i < mFiltersList.size() ; i++){
             if (chip.getText().toString() == mFiltersList.get(i)){
-                for (int j = 0 ; j < mApiService.getMeetingRoomList().size() ; j++){
-                    if (mApiService.getMeetingRoomList().get(j).getName().equals(mFiltersList.get(i))){
+                for (int j = 0; j < mApiService.getMeetingRoomsList().size() ; j++){
+                    if (mApiService.getMeetingRoomsList().get(j).getName().equals(mFiltersList.get(i))){
                         placeFilterRemoved = true;
                     }
                 }
@@ -270,12 +270,12 @@ public class MeetingsListActivity extends AppCompatActivity
 
     @Subscribe
     public void onDeleteMeetingEvent(DeleteMeetingEvent event){
-        mApiService.deleteMeeting(event.mMeeting);
+        mApiService.removeMeeting(event.mMeeting);
         initList();
     }
 
     @Subscribe
-    public void onClickItemInRecyclerViewEvent(ClickOnItemInRecyclerViewEvent event){
+    public void onClickItemInRecyclerViewEvent(DisplayMeetingMembersEvent event){
         setMembersListOnTextView(event.mMeeting.getMembers(), mTextViewMembersList);
     }
 }

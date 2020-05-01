@@ -13,8 +13,6 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-
-
 public class DateDialogFragment extends DialogFragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)

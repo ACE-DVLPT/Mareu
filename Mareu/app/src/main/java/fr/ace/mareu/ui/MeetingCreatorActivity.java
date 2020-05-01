@@ -107,9 +107,6 @@ public class MeetingCreatorActivity
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * @return a {@link Calendar} with parameters initialized by 0
-     */
     public Calendar initCalendar(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 0);
@@ -225,10 +222,14 @@ public class MeetingCreatorActivity
     }
 
     public void addEmailToChipGroup(String email){
+        String emailErrorMessage = "Adresse email non valide";
+
         if (checkEmailStructure(email)) {
             addEmail(email);
             mMultiAutoCompleteTextViewMembers.setText("");
             hideSoftKeyboard();
+        } else {
+            Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -264,16 +265,13 @@ public class MeetingCreatorActivity
     public Boolean checkEmailStructure(String string){
         boolean emailValid = false;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        String emailErrorMessage = "Adresse email non valide";
 
         if (string.isEmpty()){
-            Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
             emailValid = false;
         } else {
             if (string.trim().matches(emailPattern)) {
                 emailValid = true;
             } else {
-                Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
                 emailValid = false;
             }
         }

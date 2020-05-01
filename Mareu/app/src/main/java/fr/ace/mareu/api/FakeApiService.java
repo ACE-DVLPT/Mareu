@@ -66,7 +66,6 @@ public class FakeApiService implements ApiService {
         return !meetingIsDuplicated(meeting, mMeetingsList);
     }
 
-    // TODO : unit test
     /**
      * Verifies that the meeting being tested does not interfere with another meeting on the reference list
      * @param meeting is the instance of {@link Meeting} that must be tested
@@ -101,7 +100,6 @@ public class FakeApiService implements ApiService {
         return result;
     }
 
-    // TODO : unit test
     /**
      * Get initialList, apply filters from filtersList and return the list filtered
      * @param initialList is the {@link ArrayList} of {@link Meeting} to filter
@@ -134,7 +132,6 @@ public class FakeApiService implements ApiService {
         return filteredList;
     }
 
-    // TODO : unit test
     /**
      * @param meetingsList is the {@link ArrayList} of {@link Meeting} to sort
      * @return the meetingsList sorted
@@ -149,7 +146,6 @@ public class FakeApiService implements ApiService {
         return meetingsList;
     }
 
-    // TODO : unit test
     /**
      * @param meetingsList is the {@link ArrayList} of {@link Meeting} to check
      * @return the meetingsList with only meetings where the date has not ended

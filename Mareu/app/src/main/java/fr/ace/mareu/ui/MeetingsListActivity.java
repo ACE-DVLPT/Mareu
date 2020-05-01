@@ -268,12 +268,20 @@ public class MeetingsListActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fired if the user clicks on a delete button
+     * @param event
+     */
     @Subscribe
     public void onDeleteMeetingEvent(DeleteMeetingEvent event){
         mApiService.removeMeeting(event.mMeeting);
         initList();
     }
 
+    /**
+     * Fired if the user clicks on a meeting
+     * @param event
+     */
     @Subscribe
     public void onClickItemInRecyclerViewEvent(DisplayMeetingMembersEvent event){
         setMembersListOnTextView(event.mMeeting.getMembers(), mTextViewMembersList);

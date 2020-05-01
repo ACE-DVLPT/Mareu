@@ -343,6 +343,10 @@ public class MeetingCreatorActivity
         setTextViewDuration(hour,minute);
     }
 
+    /**
+     * Fired if the user clicks on validation button
+     * @param event
+     */
     @Subscribe
     public void onAddMeetingEvent(AddMeetingEvent event){
         mApiService.addMeeting(event.mMeeting);

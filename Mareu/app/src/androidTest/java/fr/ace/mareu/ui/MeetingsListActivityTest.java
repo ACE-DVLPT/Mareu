@@ -12,11 +12,14 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import fr.ace.mareu.R;
+import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.DeleteViewAction;
 import fr.ace.mareu.utils.RecyclerViewItemCountViewAssertion;
+import fr.ace.mareu.utils.di.DI;
 
 import static androidx.test.espresso.Espresso.onView;
 
@@ -37,11 +40,8 @@ public class MeetingsListActivityTest {
 
     @Before
     public void setUp() {
-
         mActivityTestRule.getActivity().mMeetingsList.clear();
-
         refreshRecycleViewAdapter();
-
     }
 
     /**
@@ -53,9 +53,7 @@ public class MeetingsListActivityTest {
 
                 @Override
                 public void run() {
-
                     mActivityTestRule.getActivity().initList();
-
                 }
             });
         } catch (Throwable throwable) {
@@ -70,7 +68,7 @@ public class MeetingsListActivityTest {
     public void recyclerView_whenIsEmpty_displayTheRightMessage() {
 
         onView(withId(R.id.activity_meetings_list_txt_empty_view))
-                .check(matches(withText("Aucune réunion planifiée")));
+                .check(matches(withText("Aucune réunion disponible")));
 
     }
 
@@ -80,18 +78,28 @@ public class MeetingsListActivityTest {
     @Test
     public void recyclerView_whenDeleteButtonIsClicked_itemShouldBeRemoved(){
 
+        Calendar meetingDATE = Calendar.getInstance();
+        Calendar meetingDuration = Calendar.getInstance();
+        meetingDuration.set(Calendar.YEAR, 0);
+        meetingDuration.set(Calendar.MONTH, 0);
+        meetingDuration.set(Calendar.DAY_OF_MONTH, 0);
+        meetingDuration.set(Calendar.HOUR, 1);
+        meetingDuration.set(Calendar.HOUR_OF_DAY, 0);
+        meetingDuration.set(Calendar.MINUTE, 45);
+        meetingDuration.set(Calendar.SECOND, 0);
+        meetingDuration.set(Calendar.MILLISECOND, 0);
+
         Meeting meeting = new Meeting(
                 "topic",
-                "place",
-                "01/01/2020",
-                "20h00",
-                "1h",
+                "Peach",
+                meetingDATE,
+                meetingDuration,
                 new ArrayList<>(Arrays.asList(
-                        ("email")
+                        ("email@email.com")
                 ))
         );
 
-        mActivityTestRule.getActivity().mMeetingsList.add(meeting);
+        mActivityTestRule.getActivity().mApiService.addMeeting(meeting);
         refreshRecycleViewAdapter();
 
         onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
@@ -100,8 +108,8 @@ public class MeetingsListActivityTest {
         onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
 
-        onView(withId(R.id.activity_meetings_list_txt_empty_view))
-                .check(matches(withText("Aucune réunion planifiée")));
+        onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
+                .check(RecyclerViewItemCountViewAssertion.withItemCount(0));
 
     }
 

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
  */
 public class MeetingRoom {
 
+    /** name of the meeting room*/
     private String mName;
 
     public MeetingRoom(String name) {

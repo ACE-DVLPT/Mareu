@@ -9,14 +9,23 @@ import java.util.Calendar;
  */
 public class Meeting {
 
+    /** topic of the meeting */
     private String mTopic;
+    /** place of the meeting */
     private String mPlace;
+    /** start date and time of the meeting */
     private Calendar mDate;
+    /** formatted date */
     private String mStringDate;
+    /** formatted start time */
     private String mStringStartTime;
-    private Calendar mEndTime;
+    /** duration of the meeting */
     private Calendar mDuration;
+    /** formatted duration */
     private String mStringDuration;
+    /** formatted start time */
+    private Calendar mEndTime;
+    /** list of members attending the meeting */
     private ArrayList<String> mMembers;
 
     public Meeting(String topic, String place, Calendar date, Calendar duration, ArrayList<String> members) {
@@ -51,16 +60,28 @@ public class Meeting {
         mDate = date;
     }
 
+    /**
+     * Date getter with specific string format
+     * @return a {@link String} with the full date of the meeting
+     */
     public String getStringDate() {
         mStringDate = DateFormat.getDateInstance(DateFormat.FULL).format(mDate.getTime());
         return mStringDate;
     }
 
+    /**
+     * Start time getter with specific string format
+     * @return a {@link String} with the start time of the meeting
+     */
     public String getStringStartTime() {
         mStringStartTime = String.format("%02d", mDate.get(Calendar.HOUR_OF_DAY)) + "h" + String.format("%02d", mDate.get(Calendar.MINUTE));
         return mStringStartTime;
     }
 
+    /**
+     * Defined from start hour plus duration
+     * @return a {@link Calendar} with the end time of the meeting
+     */
     public Calendar getEndTime(){
         mEndTime = Calendar.getInstance();
         mEndTime.setTime(mDate.getTime());
@@ -77,6 +98,10 @@ public class Meeting {
         mDuration = duration;
     }
 
+    /**
+     * Duration getter with specific string format
+     * @return a {@link String} with the duration of the meeting
+     */
     public String getStringDuration() {
         if (mDuration.get(Calendar.HOUR) > 0){
             if (mDuration.get(Calendar.MINUTE) == 0){

@@ -46,25 +46,43 @@ import fr.ace.mareu.utils.di.DI;
 import fr.ace.mareu.utils.di.CustomTokenizer;
 import fr.ace.mareu.utils.events.AddMeetingEvent;
 
+/**
+ * Activity called to create a new meeting
+ */
 public class MeetingCreatorActivity
         extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DurationDialogFragment.OnDurationSetListener, View.OnClickListener {
 
+    /** Instance of API */
     private ApiService mApiService;
+    /** Meeting that will be created if validation */
     private Meeting mMeeting;
+    /** List of meeting rooms must be displayed on the place spinner*/
     private List<MeetingRoom> mMeetingRoomList;
+    /** List of members proposed on the multi auto complete text view */
     private List<String> mMemberReminderList;
 
+    /** Custom toolbar*/
     Toolbar mToolbar;
+    /** Allows to type the topic */
     EditText mEditTextTopic;
+    /** Allows to select the place */
     Spinner mSpinnerPlace;
+    /** Allows to select the date */
     TextView mTextViewDate;
+    /** Allows to select the start time */
     TextView mTextViewHour;
+    /** Allows to select the duration */
     TextView mTextViewDuration;
+    /** Allows to type or select several members */
     MultiAutoCompleteTextView mMultiAutoCompleteTextViewMembers;
+    /** Allows to finish the activity with no actions */
     Button mButtonCancellation;
+    /** Allows to validates the characteristics of the meeting */
     Button mButtonValidation;
+    /** Allows to add the email to the chip group*/
     ImageButton mImageButtonAddEmail;
+    /** Allows to display members by chips */
     ChipGroup mChipGroupEmail;
 
     @Override
@@ -72,6 +90,7 @@ public class MeetingCreatorActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_creator);
 
+        // Find view
         mToolbar = findViewById(R.id.activity_meeting_creator_button_toolbar);
         mEditTextTopic = findViewById(R.id.activity_meeting_creator_editText_topic);
         mSpinnerPlace = findViewById(R.id.activity_meeting_creator_spinner_place);
@@ -88,6 +107,7 @@ public class MeetingCreatorActivity
         mApiService = DI.getApiService();
         mMeeting = new Meeting(null, null, initCalendar(), initCalendar(), new ArrayList<>(Arrays.asList((""))));
 
+        // Initialization
         setToolbar();
         setMeetingRoomList();
         setMemberReminderList();
@@ -107,6 +127,10 @@ public class MeetingCreatorActivity
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * used for instantiation of an empty meeting
+     * @return a {@link Calendar} with all parameters initialized with "0"
+     */
     public Calendar initCalendar(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 0);
@@ -120,11 +144,17 @@ public class MeetingCreatorActivity
         return calendar;
     }
 
+    /**
+     * Initialization of the toolbar
+     */
     public void setToolbar() {
         mToolbar.setTitle("Création d'une Réunion");
         setSupportActionBar(mToolbar);
     }
 
+    /**
+     * Initialization of the place spinner
+     */
     public void setMeetingRoomList(){
         mMeetingRoomList = mApiService.getMeetingRoomsList();
         String defaultValue = "- Lieu -";
@@ -139,6 +169,9 @@ public class MeetingCreatorActivity
         mSpinnerPlace.setSelection(0);
     }
 
+    /**
+     * Initialization of the multi auto complete text view with all members saved
+     */
     public void setMemberReminderList(){
         mMemberReminderList = mApiService.getMembersReminderList();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -147,6 +180,9 @@ public class MeetingCreatorActivity
         mMultiAutoCompleteTextViewMembers.setTokenizer(new CustomTokenizer());
     }
 
+    /**
+     * Initialization of all the setOnClickListener
+     */
     public void setOnClickListener(){
         mTextViewDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +237,11 @@ public class MeetingCreatorActivity
             }
         });
     }
-    
+
+    /**
+     * Verify if all fields are completed
+     * @return a {@link Boolean} with the result
+     */
     public Boolean allFieldsCompleted(){
         Boolean result = false;
         Calendar todayDate = Calendar.getInstance();
@@ -221,11 +261,22 @@ public class MeetingCreatorActivity
         return result;
     }
 
+    /**
+     * Add the email typed on the multi auto complete text view to the chip group
+     * Display an error if email structure is invalid
+     * @param email to add
+     */
     public void addEmailToChipGroup(String email){
         String emailErrorMessage = "Adresse email non valide";
-
         if (checkEmailStructure(email)) {
-            addEmail(email);
+            Chip chip = new Chip(this);
+            chip.setText(email);
+            chip.setCloseIconVisible(true);
+            chip.setCheckable(false);
+            chip.setClickable(false);
+            chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
+            mChipGroupEmail.addView(chip);
+            mChipGroupEmail.setVisibility(View.VISIBLE);
             mMultiAutoCompleteTextViewMembers.setText("");
             hideSoftKeyboard();
         } else {
@@ -233,17 +284,11 @@ public class MeetingCreatorActivity
         }
     }
 
-    public void addEmail(String email){
-        Chip chip = new Chip(this);
-        chip.setText(email);
-        chip.setCloseIconVisible(true);
-        chip.setCheckable(false);
-        chip.setClickable(false);
-        chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
-        mChipGroupEmail.addView(chip);
-        mChipGroupEmail.setVisibility(View.VISIBLE);
-    }
-
+    /**
+     * Allows to get the string contained in the chips displayed
+     * @param chipGroup where we get the chips
+     * @return an {@link ArrayList} of {@link String} the emails contained in the chips
+     */
     public ArrayList<String> getTextFromChipGroup(ChipGroup chipGroup){
         ArrayList<String> list = new ArrayList<>();
         Chip chip;
@@ -254,6 +299,9 @@ public class MeetingCreatorActivity
         return list;
     }
 
+    /**
+     * Allows to hide the keyboard displayed
+     */
     public void hideSoftKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -262,14 +310,19 @@ public class MeetingCreatorActivity
         }
     }
 
-    public Boolean checkEmailStructure(String string){
+    /**
+     * Check if the string typed is an email
+     * @param email to check
+     * @return a {@link Boolean} with the result
+     */
+    public Boolean checkEmailStructure(String email){
         boolean emailValid = false;
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-        if (string.isEmpty()){
+        if (email.isEmpty()){
             emailValid = false;
         } else {
-            if (string.trim().matches(emailPattern)) {
+            if (email.trim().matches(emailPattern)) {
                 emailValid = true;
             } else {
                 emailValid = false;
@@ -278,16 +331,24 @@ public class MeetingCreatorActivity
         return emailValid;
     }
 
-    @Override
-    public void onClick(View view) {
-        Chip chip = (Chip) view;
-        mChipGroupEmail.removeView(chip);
-    }
-
+    /**
+     * Pass parameters from fields to the meeting
+     * @param meeting whose parameters we wish to apply
+     */
     private void passParameters(Meeting meeting) {
         meeting.setTopic(mEditTextTopic.getText().toString());
         meeting.setPlace(mSpinnerPlace.getSelectedItem().toString());
         meeting.setMembers(getTextFromChipGroup(mChipGroupEmail));
+    }
+
+    /**
+     * Fired if the user clicks on add member button (to add member to the chip group)
+     * @param view
+     */
+    @Override
+    public void onClick(View view) {
+        Chip chip = (Chip) view;
+        mChipGroupEmail.removeView(chip);
     }
 
     @Override
@@ -295,6 +356,13 @@ public class MeetingCreatorActivity
         super.onBackPressed();
     }
 
+    /**
+     * Set meeting date
+     * @param datePicker
+     * @param year
+     * @param month
+     * @param day
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -309,6 +377,12 @@ public class MeetingCreatorActivity
         mTextViewDate.setText(mMeeting.getStringDate());
     }
 
+    /**
+     * Set meeting start time
+     * @param timePicker
+     * @param hour
+     * @param minute
+     */
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
@@ -323,7 +397,13 @@ public class MeetingCreatorActivity
         mTextViewHour.setText(mMeeting.getStringStartTime());
     }
 
-    public void setTextViewDuration(int hour, int minute){
+    /**
+     * set meeting duration
+     * @param hour
+     * @param minute
+     */
+    @Override
+    public void onDurationSet(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 0);
         calendar.set(Calendar.MONTH, 0);
@@ -334,11 +414,6 @@ public class MeetingCreatorActivity
         calendar.set(Calendar.MILLISECOND, 0);
         mMeeting.setDuration(calendar);
         mTextViewDuration.setText(mMeeting.getStringDuration());
-    }
-
-    @Override
-    public void onDurationSet(int hour, int minute) {
-        setTextViewDuration(hour,minute);
     }
 
     /**

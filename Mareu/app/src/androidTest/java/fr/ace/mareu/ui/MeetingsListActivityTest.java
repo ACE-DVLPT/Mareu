@@ -70,7 +70,6 @@ public class MeetingsListActivityTest {
                     mActivityTestRule.getActivity().mApiService.getMeetingsList(new ArrayList<String>()).get(i)
             );
         }
-        mActivityTestRule.getActivity().mMeetingsList.clear();
         refreshRecycleViewAdapter();
     }
 

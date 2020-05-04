@@ -1,6 +1,5 @@
 package fr.ace.mareu.ui.fragments;
 
-
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -12,8 +11,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-
-
+/**
+ * Allows to display hour picker dialog
+ */
 public class HourDialogFragment extends DialogFragment {
 
     @NonNull

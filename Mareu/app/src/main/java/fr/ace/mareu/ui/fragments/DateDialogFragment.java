@@ -13,6 +13,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
+/**
+ * Allows to display date picker dialog
+ */
 public class DateDialogFragment extends DialogFragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -15,6 +15,9 @@ import androidx.fragment.app.DialogFragment;
 
 import fr.ace.mareu.R;
 
+/**
+ * Allows to display custom duration picker dialog
+ */
 public class DurationDialogFragment extends DialogFragment {
 
     private NumberPicker mHourPicker;

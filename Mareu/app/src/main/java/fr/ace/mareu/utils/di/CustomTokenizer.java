@@ -5,6 +5,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.widget.MultiAutoCompleteTextView;
 
+/**
+ * Used with multi auto complete text view on MeetingCreatorActivity
+ */
 public class CustomTokenizer implements MultiAutoCompleteTextView.Tokenizer {
     @Override
     public int findTokenStart(CharSequence charSequence, int cursor) {

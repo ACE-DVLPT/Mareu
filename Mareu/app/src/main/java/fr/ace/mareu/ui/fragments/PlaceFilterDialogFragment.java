@@ -22,6 +22,9 @@ import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.model.MeetingRoom;
 import fr.ace.mareu.utils.di.DI;
 
+/**
+ * Allows to display place spinner dialog
+ */
 public class PlaceFilterDialogFragment extends DialogFragment {
 
     private Spinner mSpinnerPlace;

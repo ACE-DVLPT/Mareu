@@ -19,6 +19,9 @@ import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
 
+/**
+ * Recycler view adapter used on MeetingListActivity
+ */
 public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRecyclerViewAdapter.ViewHolder> {
 
     // Adapter

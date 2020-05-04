@@ -31,7 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -63,27 +62,27 @@ public class MeetingCreatorActivity
     private List<String> mMemberReminderList;
 
     /** Custom toolbar */
-    Toolbar mToolbar;
+    private Toolbar mToolbar;
     /** Allows to type the topic */
-    EditText mEditTextTopic;
+    private EditText mEditTextTopic;
     /** Allows to select the place */
-    Spinner mSpinnerPlace;
+    private Spinner mSpinnerPlace;
     /** Allows to select the date */
-    TextView mTextViewDate;
+    private TextView mTextViewDate;
     /** Allows to select the start time */
-    TextView mTextViewHour;
+    private TextView mTextViewHour;
     /** Allows to select the duration */
-    TextView mTextViewDuration;
+    private TextView mTextViewDuration;
     /** Allows to type or select several members */
-    MultiAutoCompleteTextView mMultiAutoCompleteTextViewMembers;
+    private MultiAutoCompleteTextView mMultiAutoCompleteTextViewMembers;
     /** Allows to finish the activity with no actions */
-    Button mButtonCancellation;
+    private Button mButtonCancellation;
     /** Allows to validates the characteristics of the meeting */
-    Button mButtonValidation;
+    private Button mButtonValidation;
     /** Allows to add the email to the chip group */
-    ImageButton mImageButtonAddEmail;
+    private ImageButton mImageButtonAddEmail;
     /** Allows to display members by chips */
-    ChipGroup mChipGroupEmail;
+    private ChipGroup mChipGroupEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -49,25 +49,37 @@ import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 public class MeetingsListActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, View.OnClickListener, PlaceFilterDialogFragment.OnPlaceSetListener {
 
+    /** Instance of API */
     ApiService mApiService;
 
-    FloatingActionButton mBtnAddMeeting;
-    RecyclerView mRecyclerView;
-    TextView mTextViewEmptyView;
-    Toolbar mToolbar;
-    ChipGroup mChipGroupFilters;
-    Boolean mPlaceFilterAlreadyExist = false;
-    Boolean mDateFilterAlreadyExist = false;
+    /** Custom toolbar */
+    private Toolbar mToolbar;
+    /** Allows to start MeetingCreatorActivity */
+    private FloatingActionButton mBtnAddMeeting;
+    /** Allows to display a list of meetings */
+    private RecyclerView mRecyclerView;
+    /** Text displayed when no meetings available */
+    private TextView mTextViewEmptyView;
+    /** Allows to display active filters by chips */
+    private ChipGroup mChipGroupFilters;
+    /** Allows to know if place filter already exist */
+    private Boolean mPlaceFilterAlreadyExist = false;
+    /** Allows to know if date filter already exist */
+    private Boolean mDateFilterAlreadyExist = false;
 
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
-    ArrayList<Meeting> mMeetingsList;
-    ArrayList<String> mFiltersList;
+    /** Meeting list used on the recycler view */
+    private ArrayList<Meeting> mMeetingsList;
+    /** List of filters used to call with the API */
+    private ArrayList<String> mFiltersList;
 
     // Orientation LandScape
-    LinearLayout mLinearLayoutContainer;
-    TextView mTextViewMembersList;
+    /** Container used to set visibility. Allows to hide TextView when no meeting displayed on the recycler view */
+    private LinearLayout mLinearLayoutContainer;
+    /** allows to display the members of the selected meeting */
+    private TextView mTextViewMembersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +141,11 @@ public class MeetingsListActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Filter menu
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -152,6 +169,10 @@ public class MeetingsListActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Used to filter by place
+     * @param place
+     */
     @Override
     public void onPlaceSet(String place) {
         mPlaceFilterAlreadyExist = true;
@@ -160,6 +181,13 @@ public class MeetingsListActivity extends AppCompatActivity
         initList();
     }
 
+    /**
+     * Used to filter by date
+     * @param datePicker
+     * @param year
+     * @param month
+     * @param day
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
@@ -177,7 +205,11 @@ public class MeetingsListActivity extends AppCompatActivity
         addFilterToChipGroup(dateString);
         initList();
     }
-    
+
+    /**
+     * Add filter to the chip group
+     * @param filter
+     */
     public void addFilterToChipGroup(String filter){
         Chip chip = new Chip(this);
         chip.setText(filter);
@@ -189,6 +221,11 @@ public class MeetingsListActivity extends AppCompatActivity
         mChipGroupFilters.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Used to remove the chip
+     * if performed, this method update the filterList
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         Chip chip = (Chip) view;
@@ -212,11 +249,18 @@ public class MeetingsListActivity extends AppCompatActivity
         initList();
     }
 
+    /**
+     * Method used to start MeetingCreatorActivity
+     */
     public void openMeetingCreatorActivity(){
         Intent intent = new Intent(this , MeetingCreatorActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * notifies about the phone orientation status
+     * @return a {@link Boolean}, if true the phone is in landscape orientation
+     */
     public Boolean orientationLandScape(){
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -226,6 +270,9 @@ public class MeetingsListActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Allows to display the message when recycler view is empty
+     */
     public void displayMessageIfRecyclerViewIsEmpty() {
         if (orientationLandScape()){
             if (mMeetingsList.isEmpty()){
@@ -244,6 +291,11 @@ public class MeetingsListActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Allows to set the list of members when the phone is in landscape orientation
+     * @param arrayList
+     * @param textView
+     */
     public void setMembersListOnTextView(ArrayList arrayList, TextView textView){
         if (orientationLandScape()) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -260,6 +312,9 @@ public class MeetingsListActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Used to init the recyclerview with the list from API service
+     */
     public void initList() {
         mMeetingsList.clear();
         mMeetingsList.addAll(mApiService.getMeetingsList(mFiltersList));

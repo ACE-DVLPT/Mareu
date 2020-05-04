@@ -38,6 +38,18 @@ public class ApiServiceImpl implements ApiService {
      * {@inheritDoc}
      */
     @Override
+    public void addMemberEmailToReminderList(String memberEmail) {
+        if (mMembersReminderList.contains(memberEmail)) {
+            // Do nothing
+        } else {
+            mMembersReminderList.add(memberEmail);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ArrayList<MeetingRoom> getMeetingRoomsList() {
         return mMeetingRoomsList;
     }

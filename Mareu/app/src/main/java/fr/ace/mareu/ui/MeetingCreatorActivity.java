@@ -62,7 +62,7 @@ public class MeetingCreatorActivity
     /** List of members proposed on the multi auto complete text view */
     private List<String> mMemberReminderList;
 
-    /** Custom toolbar*/
+    /** Custom toolbar */
     Toolbar mToolbar;
     /** Allows to type the topic */
     EditText mEditTextTopic;
@@ -80,7 +80,7 @@ public class MeetingCreatorActivity
     Button mButtonCancellation;
     /** Allows to validates the characteristics of the meeting */
     Button mButtonValidation;
-    /** Allows to add the email to the chip group*/
+    /** Allows to add the email to the chip group */
     ImageButton mImageButtonAddEmail;
     /** Allows to display members by chips */
     ChipGroup mChipGroupEmail;
@@ -173,7 +173,8 @@ public class MeetingCreatorActivity
      * Initialization of the multi auto complete text view with all members saved
      */
     public void setMemberReminderList(){
-        mMemberReminderList = mApiService.getMembersReminderList();
+        mMemberReminderList = new ArrayList<>();
+        mMemberReminderList.addAll(mApiService.getMembersReminderList());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,mMemberReminderList);
         mMultiAutoCompleteTextViewMembers.setAdapter(adapter);
@@ -280,6 +281,8 @@ public class MeetingCreatorActivity
                 mChipGroupEmail.addView(chip);
                 mChipGroupEmail.setVisibility(View.VISIBLE);
                 mMultiAutoCompleteTextViewMembers.setText("");
+                mApiService.addMemberEmailToReminderList(email);
+                setMemberReminderList();
                 hideSoftKeyboard();
             } else {
                 Toast.makeText(getApplicationContext(), existingMemberErrorMessage,Toast.LENGTH_SHORT).show();

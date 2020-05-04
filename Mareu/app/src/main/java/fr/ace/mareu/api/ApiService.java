@@ -23,6 +23,12 @@ public interface ApiService {
     ArrayList<String> getMembersReminderList();
 
     /**
+     * Add email to reminder list if it does not exist yet
+     * @param memberEmail to add
+     */
+    void addMemberEmailToReminderList(String memberEmail);
+
+    /**
      * @return an {@link ArrayList} of {@link String} with the name of meeting rooms
      */
     ArrayList<MeetingRoom> getMeetingRoomsList();

@@ -57,7 +57,7 @@ public class MeetingCreatorActivity
     private ApiService mApiService;
     /** Meeting that will be created if validation */
     private Meeting mMeeting;
-    /** List of meeting rooms must be displayed on the place spinner*/
+    /** List of meeting rooms must be displayed on the place spinner */
     private List<MeetingRoom> mMeetingRoomList;
     /** List of members proposed on the multi auto complete text view */
     private List<String> mMemberReminderList;
@@ -268,17 +268,22 @@ public class MeetingCreatorActivity
      */
     public void addEmailToChipGroup(String email){
         String emailErrorMessage = "Adresse email non valide";
+        String existingMemberErrorMessage = "Le membre est déjà existant";
         if (checkEmailStructure(email)) {
-            Chip chip = new Chip(this);
-            chip.setText(email);
-            chip.setCloseIconVisible(true);
-            chip.setCheckable(false);
-            chip.setClickable(false);
-            chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
-            mChipGroupEmail.addView(chip);
-            mChipGroupEmail.setVisibility(View.VISIBLE);
-            mMultiAutoCompleteTextViewMembers.setText("");
-            hideSoftKeyboard();
+            if (checkIfMemberAlreadyExist(email, mChipGroupEmail)){
+                Chip chip = new Chip(this);
+                chip.setText(email);
+                chip.setCloseIconVisible(true);
+                chip.setCheckable(false);
+                chip.setClickable(false);
+                chip.setOnCloseIconClickListener(MeetingCreatorActivity.this);
+                mChipGroupEmail.addView(chip);
+                mChipGroupEmail.setVisibility(View.VISIBLE);
+                mMultiAutoCompleteTextViewMembers.setText("");
+                hideSoftKeyboard();
+            } else {
+                Toast.makeText(getApplicationContext(), existingMemberErrorMessage,Toast.LENGTH_SHORT).show();
+            }
         } else {
             Toast.makeText(getApplicationContext(), emailErrorMessage,Toast.LENGTH_SHORT).show();
         }
@@ -329,6 +334,27 @@ public class MeetingCreatorActivity
             }
         }
         return emailValid;
+    }
+
+    /**
+     * check if email tested already exist on the chip group
+     * @param email
+     * @param chipGroup
+     * @return a {@link Boolean} with the result
+     */
+    public Boolean checkIfMemberAlreadyExist(String email, ChipGroup chipGroup){
+        boolean result = false;
+
+        if (email.isEmpty()){
+            result = false;
+        } else {
+            if (getTextFromChipGroup(chipGroup).contains(email)){
+                result = false;
+            } else {
+                result = true;
+            }
+        }
+        return result;
     }
 
     /**

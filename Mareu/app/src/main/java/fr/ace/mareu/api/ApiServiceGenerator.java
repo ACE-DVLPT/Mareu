@@ -2,7 +2,6 @@ package fr.ace.mareu.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
@@ -45,7 +44,7 @@ public abstract class ApiServiceGenerator {
      * List of meetings displayed when opening the application
      */
     public static List<Meeting> fakeMeetingsList =  Arrays.asList(
-            // empty
+
     );
 
     /**

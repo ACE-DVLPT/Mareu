@@ -105,7 +105,7 @@ public class MeetingCreatorActivity
 
         // Data
         mApiService = DI.getApiService();
-        mMeeting = new Meeting(null, null, initCalendar(), initCalendar(), new ArrayList<>(Arrays.asList((""))));
+        mMeeting = new Meeting(null, null, initCalendar(), initCalendar(), new ArrayList<String>());
 
         // Initialization
         setToolbar();

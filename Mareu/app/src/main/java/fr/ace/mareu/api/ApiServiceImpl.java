@@ -14,7 +14,7 @@ import fr.ace.mareu.model.MeetingRoom;
  */
 public class ApiServiceImpl implements ApiService {
 
-    private ArrayList<Meeting> mMeetingsList = ApiServiceGenerator.generateMeetingsList();
+    public ArrayList<Meeting> mMeetingsList = ApiServiceGenerator.generateMeetingsList();
     private ArrayList<String> mMembersReminderList = ApiServiceGenerator.generateMembersReminderList();
     private ArrayList<MeetingRoom> mMeetingRoomsList = ApiServiceGenerator.generateMeetingRoomsList();
 

@@ -14,7 +14,7 @@ import fr.ace.mareu.model.Meeting;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class MeetingCreatorActivityTest {
+public class MeetingCreatorActivityUnitTest {
 
     private MeetingCreatorActivity mMeetingCreatorActivity;
     private Meeting mMeeting;
@@ -39,9 +39,6 @@ public class MeetingCreatorActivityTest {
         mCalendar.set(Calendar.MILLISECOND, 0);
     }
 
-    /**
-     * check that the method detects the structure of an email address
-     */
     @Test
     public void checkEmailStructure() {
         String validEmail = "validemail@email.com";
@@ -50,9 +47,6 @@ public class MeetingCreatorActivityTest {
         assertFalse(mMeetingCreatorActivity.checkEmailStructure(invalidEmail));
     }
 
-    /**
-     * Check if the setDate() method have the right behavior
-     */
     @Test
     public void setDate() {
         // init the meeting
@@ -70,9 +64,6 @@ public class MeetingCreatorActivityTest {
         assertTrue(mMeeting.getStringStartTime().equals("13h30"));
     }
 
-    /**
-     * Check if the setTime() method have the right behavior
-     */
     @Test
     public void setTime() {
         // init the meeting
@@ -91,9 +82,6 @@ public class MeetingCreatorActivityTest {
         assertTrue(mMeeting.getStringStartTime().equals("14h45"));
     }
 
-    /**
-     * Check if the setDuration() method have the right behavior
-     */
     @Test
     public void setDuration() {
         // init the meeting

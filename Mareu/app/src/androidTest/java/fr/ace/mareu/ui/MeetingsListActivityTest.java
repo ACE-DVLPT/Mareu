@@ -117,6 +117,13 @@ public class MeetingsListActivityTest {
                         isDisplayed()));
         materialTextView.perform(click());
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         // test
         onView(allOf(ViewMatchers.withId(R.id.fragment_dialog_filter_place_spinner_place))).check(matches(isDisplayed()));
     }
@@ -141,6 +148,12 @@ public class MeetingsListActivityTest {
                                 0),
                         isDisplayed()));
         materialTextView.perform(click());
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // test
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).check(matches(isDisplayed()));

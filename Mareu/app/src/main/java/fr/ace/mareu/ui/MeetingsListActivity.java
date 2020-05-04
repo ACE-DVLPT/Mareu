@@ -42,6 +42,10 @@ import fr.ace.mareu.ui.adapters.MeetingsRecyclerViewAdapter;
 import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
+/**
+ * Activity called when the application started
+ * Used to display all future meetings
+ */
 public class MeetingsListActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, View.OnClickListener, PlaceFilterDialogFragment.OnPlaceSetListener {
 

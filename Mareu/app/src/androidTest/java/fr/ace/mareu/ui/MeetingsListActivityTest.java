@@ -319,7 +319,7 @@ public class MeetingsListActivityTest {
         ViewInteraction materialTextView = onView(Matchers.allOf(withId(R.id.activity_meeting_creator_text_view_date), childAtPosition(childAtPosition(withClassName(is("android.widget.LinearLayout")), 0), 5)));
         materialTextView.perform(scrollTo(), click());
 
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 5, 1));
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2030, 5, 1));
         onView(withId(android.R.id.button1)).perform(click());
 
         ViewInteraction materialTextView2 = onView(Matchers.allOf(withId(R.id.activity_meeting_creator_text_view_hour), childAtPosition(childAtPosition(withClassName(is("android.widget.LinearLayout")), 0), 7)));

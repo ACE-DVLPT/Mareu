@@ -11,7 +11,7 @@ import fr.ace.mareu.model.MeetingRoom;
 /**
  * Data used in the API mock
  */
-public abstract class FakeApiServiceGenerator {
+public abstract class ApiServiceGenerator {
 
     /**
      * List of email member

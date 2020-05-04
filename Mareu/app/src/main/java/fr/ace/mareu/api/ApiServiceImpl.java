@@ -12,11 +12,11 @@ import fr.ace.mareu.model.MeetingRoom;
 /**
  * Mock for ApiService
  */
-public class FakeApiService implements ApiService {
+public class ApiServiceImpl implements ApiService {
 
-    private ArrayList<Meeting> mMeetingsList = FakeApiServiceGenerator.generateMeetingsList();
-    private ArrayList<String> mMembersReminderList = FakeApiServiceGenerator.generateMembersReminderList();
-    private ArrayList<MeetingRoom> mMeetingRoomsList = FakeApiServiceGenerator.generateMeetingRoomsList();
+    private ArrayList<Meeting> mMeetingsList = ApiServiceGenerator.generateMeetingsList();
+    private ArrayList<String> mMembersReminderList = ApiServiceGenerator.generateMembersReminderList();
+    private ArrayList<MeetingRoom> mMeetingRoomsList = ApiServiceGenerator.generateMeetingRoomsList();
 
     /**
      * {@inheritDoc}

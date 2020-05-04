@@ -65,6 +65,11 @@ public class MeetingsListActivityTest {
 
     @Before
     public void setUp() {
+        for(int i = 0 ; i < mActivityTestRule.getActivity().mApiService.getMeetingsList(new ArrayList<String>()).size() ; i++){
+            mActivityTestRule.getActivity().mApiService.removeMeeting(
+                    mActivityTestRule.getActivity().mApiService.getMeetingsList(new ArrayList<String>()).get(i)
+            );
+        }
         mActivityTestRule.getActivity().mMeetingsList.clear();
         refreshRecycleViewAdapter();
     }
@@ -189,7 +194,6 @@ public class MeetingsListActivityTest {
 
     @Test
     public void recyclerView_whenDeleteButtonIsClicked_itemShouldBeRemoved(){
-
         Calendar meetingDATE = Calendar.getInstance();
         Calendar meetingDuration = Calendar.getInstance();
         meetingDuration.set(Calendar.YEAR, 0);
@@ -258,6 +262,7 @@ public class MeetingsListActivityTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
          // test
         onView(allOf(ViewMatchers.withId(R.id.fragment_member_list_text_view), isDisplayed()))
                 .check(matches(withText("email@email.com")));
@@ -270,6 +275,12 @@ public class MeetingsListActivityTest {
         onView(allOf(withId(R.id.activity_meetings_list_btn_add_meeting),isDisplayed()))
                 .perform(click());
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // Ensure that the correct activity has started
         intended(hasComponent(MeetingCreatorActivity.class.getName()));
 
@@ -278,7 +289,6 @@ public class MeetingsListActivityTest {
 
     @Test
     public void meetingCreatorActivity_whenCancelButtonIsPressed_thenBackToMeetingListActivityWithoutNewMeeting(){
-
         // Test before
         onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))
                 .check(RecyclerViewItemCountViewAssertion.withItemCount(0));
@@ -288,6 +298,12 @@ public class MeetingsListActivityTest {
                 .perform(click());
         onView(allOf(withId(R.id.activity_meeting_creator_button_cancellation),isDisplayed()))
                 .perform(click());
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Test after
         onView(allOf(ViewMatchers.withId(R.id.recyclerview_meetings_list), isDisplayed()))

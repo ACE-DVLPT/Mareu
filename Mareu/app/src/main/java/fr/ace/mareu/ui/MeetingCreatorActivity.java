@@ -394,16 +394,28 @@ public class MeetingCreatorActivity
      */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        mMeeting.setDate(setDate(mMeeting,year,month,day));
+        mTextViewDate.setText(mMeeting.getStringDate());
+    }
+
+    /**
+     * Changes the meeting date without changing time
+     * @param meeting
+     * @param year
+     * @param month
+     * @param day
+     * @return the new update of the {@link Calendar}
+     */
+    public Calendar setDate(Meeting meeting, int year, int month, int day){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.HOUR_OF_DAY, mMeeting.getDate().get(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, mMeeting.getDate().get(Calendar.MINUTE));
+        calendar.set(Calendar.HOUR_OF_DAY, meeting.getDate().get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, meeting.getDate().get(Calendar.MINUTE));
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        mMeeting.setDate(calendar);
-        mTextViewDate.setText(mMeeting.getStringDate());
+        return calendar;
     }
 
     /**
@@ -414,16 +426,27 @@ public class MeetingCreatorActivity
      */
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        mMeeting.setDate(setTime(mMeeting,hour,minute));
+        mTextViewHour.setText(mMeeting.getStringStartTime());
+    }
+
+    /**
+     * Changes the meeting time without changing date
+     * @param meeting
+     * @param hour
+     * @param minute
+     * @return the new update of the {@link Calendar}
+     */
+    public Calendar setTime(Meeting meeting, int hour, int minute){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, mMeeting.getDate().get(Calendar.YEAR));
-        calendar.set(Calendar.MONTH, mMeeting.getDate().get(Calendar.MONTH));
-        calendar.set(Calendar.DAY_OF_MONTH, mMeeting.getDate().get(Calendar.DAY_OF_MONTH));
+        calendar.set(Calendar.YEAR, meeting.getDate().get(Calendar.YEAR));
+        calendar.set(Calendar.MONTH, meeting.getDate().get(Calendar.MONTH));
+        calendar.set(Calendar.DAY_OF_MONTH, meeting.getDate().get(Calendar.DAY_OF_MONTH));
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        mMeeting.setDate(calendar);
-        mTextViewHour.setText(mMeeting.getStringStartTime());
+        return calendar;
     }
 
     /**
@@ -433,6 +456,17 @@ public class MeetingCreatorActivity
      */
     @Override
     public void onDurationSet(int hour, int minute) {
+        mMeeting.setDuration(setDuration(hour,minute));
+        mTextViewDuration.setText(mMeeting.getStringDuration());
+    }
+
+    /**
+     * Changes the meeting duration
+     * @param hour
+     * @param minute
+     * @return the new update of the {@link Calendar}
+     */
+    public Calendar setDuration(int hour, int minute){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 0);
         calendar.set(Calendar.MONTH, 0);
@@ -441,8 +475,7 @@ public class MeetingCreatorActivity
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        mMeeting.setDuration(calendar);
-        mTextViewDuration.setText(mMeeting.getStringDuration());
+        return calendar;
     }
 
     /**

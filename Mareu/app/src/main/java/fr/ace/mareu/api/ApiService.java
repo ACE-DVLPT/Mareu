@@ -1,10 +1,8 @@
 package fr.ace.mareu.api;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.MeetingRoom;
 
 /**
  * API client
@@ -31,7 +29,7 @@ public interface ApiService {
     /**
      * @return an {@link ArrayList} of {@link String} with the name of meeting rooms
      */
-    ArrayList<MeetingRoom> getMeetingRoomsList();
+    ArrayList<String> getMeetingRoomsList();
 
     /**
      * Add the meeting in parameter to the meeting list

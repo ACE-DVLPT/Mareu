@@ -37,7 +37,6 @@ import java.util.List;
 import fr.ace.mareu.R;
 import fr.ace.mareu.api.ApiService;
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.MeetingRoom;
 import fr.ace.mareu.ui.fragments.DateDialogFragment;
 import fr.ace.mareu.ui.fragments.DurationDialogFragment;
 import fr.ace.mareu.ui.fragments.HourDialogFragment;
@@ -57,7 +56,7 @@ public class MeetingCreatorActivity
     /** Meeting that will be created if validation */
     private Meeting mMeeting;
     /** List of meeting rooms must be displayed on the place spinner */
-    private List<MeetingRoom> mMeetingRoomList;
+    private List<String> mMeetingRoomList;
     /** List of members proposed on the multi auto complete text view */
     private List<String> mMemberReminderList;
 
@@ -157,10 +156,10 @@ public class MeetingCreatorActivity
     public void setMeetingRoomList(){
         mMeetingRoomList = mApiService.getMeetingRoomsList();
         String defaultValue = "- Lieu -";
-        if(!(mMeetingRoomList.get(0).getName() == defaultValue)){
-            mMeetingRoomList.add(0, new MeetingRoom(defaultValue));
+        if(!(mMeetingRoomList.get(0) == defaultValue)){
+            mMeetingRoomList.add(0, (defaultValue));
         }
-        ArrayAdapter<MeetingRoom> adapter;
+        ArrayAdapter<String> adapter;
         adapter= new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,mMeetingRoomList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

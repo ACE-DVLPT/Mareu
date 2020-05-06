@@ -19,7 +19,6 @@ import java.util.List;
 
 import fr.ace.mareu.R;
 import fr.ace.mareu.api.ApiService;
-import fr.ace.mareu.model.MeetingRoom;
 import fr.ace.mareu.utils.di.DI;
 
 /**
@@ -28,7 +27,7 @@ import fr.ace.mareu.utils.di.DI;
 public class PlaceFilterDialogFragment extends DialogFragment {
 
     private Spinner mSpinnerPlace;
-    private List<MeetingRoom> mMeetingRoomList;
+    private List<String> mMeetingRoomList;
     private ApiService mApiService;
     private OnPlaceSetListener mListener;
 
@@ -72,11 +71,11 @@ public class PlaceFilterDialogFragment extends DialogFragment {
     public void setMeetingRoomList(){
         mMeetingRoomList = mApiService.getMeetingRoomsList();
         String defaultValue = "- Lieu -";
-        if(!(mMeetingRoomList.get(0).getName() == defaultValue)){
-            mMeetingRoomList.add(0, new MeetingRoom(defaultValue));
+        if(!(mMeetingRoomList.get(0) == defaultValue)){
+            mMeetingRoomList.add(0, defaultValue);
         }
 
-        ArrayAdapter<MeetingRoom> adapter;
+        ArrayAdapter<String> adapter;
         adapter= new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item,mMeetingRoomList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

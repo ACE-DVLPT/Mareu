@@ -234,7 +234,7 @@ public class MeetingsListActivity extends AppCompatActivity
         for (int i = 0 ; i < mFiltersList.size() ; i++){
             if (chip.getText().toString() == mFiltersList.get(i)){
                 for (int j = 0; j < mApiService.getMeetingRoomsList().size() ; j++){
-                    if (mApiService.getMeetingRoomsList().get(j).getName().equals(mFiltersList.get(i))){
+                    if (mApiService.getMeetingRoomsList().get(j).equals(mFiltersList.get(i))){
                         placeFilterRemoved = true;
                     }
                 }

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.MeetingRoom;
 
 /**
  * Data used in the API mock
@@ -27,17 +26,17 @@ public abstract class ApiServiceGenerator {
     /**
      * List of meeting rooms
      */
-    public static List<MeetingRoom> fakeMeetingRoomsList = Arrays.asList(
-            new MeetingRoom("Peach"),
-            new MeetingRoom("Mario"),
-            new MeetingRoom("Luigi"),
-            new MeetingRoom("Toad"),
-            new MeetingRoom("Yoshi"),
-            new MeetingRoom("Daisy"),
-            new MeetingRoom("Kong"),
-            new MeetingRoom("Bowser"),
-            new MeetingRoom("Wario"),
-            new MeetingRoom("Koopa")
+    public static List<String> fakeMeetingRoomsList = Arrays.asList(
+            ("Peach"),
+            ("Mario"),
+            ("Luigi"),
+            ("Toad"),
+            ("Yoshi"),
+            ("Daisy"),
+            ("Kong"),
+            ("Bowser"),
+            ("Wario"),
+            ("Koopa")
     );
 
     /**
@@ -55,9 +54,9 @@ public abstract class ApiServiceGenerator {
     }
 
     /**
-     * @return fakeMeetingRoomsList -> an {@link ArrayList} of {@link MeetingRoom}
+     * @return fakeMeetingRoomsList -> an {@link ArrayList} of {@link String}
      */
-    public static ArrayList<MeetingRoom> generateMeetingRoomsList() {
+    public static ArrayList<String> generateMeetingRoomsList() {
         return new ArrayList<>(fakeMeetingRoomsList);
     }
 

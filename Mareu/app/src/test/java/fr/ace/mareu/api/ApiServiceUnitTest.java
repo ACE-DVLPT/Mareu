@@ -4,11 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.MeetingRoom;
 import fr.ace.mareu.ui.MeetingCreatorActivity;
 import fr.ace.mareu.utils.di.DI;
 

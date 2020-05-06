@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import fr.ace.mareu.model.Meeting;
-import fr.ace.mareu.model.MeetingRoom;
 
 /**
  * Mock for ApiService
@@ -16,7 +15,7 @@ public class ApiServiceImpl implements ApiService {
 
     private ArrayList<Meeting> mMeetingsList = ApiServiceGenerator.generateMeetingsList();
     private ArrayList<String> mMembersReminderList = ApiServiceGenerator.generateMembersReminderList();
-    private ArrayList<MeetingRoom> mMeetingRoomsList = ApiServiceGenerator.generateMeetingRoomsList();
+    private ArrayList<String> mMeetingRoomsList = ApiServiceGenerator.generateMeetingRoomsList();
 
     /**
      * {@inheritDoc}
@@ -50,7 +49,7 @@ public class ApiServiceImpl implements ApiService {
      * {@inheritDoc}
      */
     @Override
-    public ArrayList<MeetingRoom> getMeetingRoomsList() {
+    public ArrayList<String> getMeetingRoomsList() {
         return mMeetingRoomsList;
     }
 

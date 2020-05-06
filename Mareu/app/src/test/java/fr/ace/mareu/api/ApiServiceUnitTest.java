@@ -17,14 +17,12 @@ public class ApiServiceUnitTest {
     private ApiService mApiService;
 
     private MeetingCreatorActivity mMeetingCreatorActivity;
-    private ArrayList<Meeting> mMeetingsList;
     private ArrayList<String> mFilterList;
 
     @Before
     public void setup() {
         mApiService = DI.getApiService();
         mMeetingCreatorActivity = new MeetingCreatorActivity();
-        mMeetingsList = new ArrayList<>();
         mFilterList = new ArrayList<>();
         for(int i = 0 ; i < mApiService.getMeetingsList(new ArrayList<String>()).size() ; i++){
             mApiService.removeMeeting(

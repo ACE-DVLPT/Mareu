@@ -118,9 +118,6 @@ public class MeetingCreatorActivityTest {
         onView(AllOf.allOf(ViewMatchers.withId(R.id.activity_meeting_creator_spinner_place)))
                 .check(matches(withSpinnerText(containsString("Mario"))));
 
-//        onView(AllOf.allOf(ViewMatchers.withId(R.id.activity_meeting_creator_text_view_date), isDisplayed()))
-//                .check(matches(withText("vendredi 1 mai")));
-
         onView(AllOf.allOf(ViewMatchers.withId(R.id.activity_meeting_creator_text_view_hour), isDisplayed()))
                 .check(matches(withText("20h30")));
 

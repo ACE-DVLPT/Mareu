@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import fr.ace.mareu.R;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
-import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
+import fr.ace.mareu.utils.events.HighlightMeetingMembersEvent;
 
 /**
  * Recycler view adapter used on MeetingListActivity
@@ -59,7 +59,7 @@ public class MeetingsRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsRe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new DisplayMeetingMembersEvent(meeting, position));
+                EventBus.getDefault().post(new HighlightMeetingMembersEvent(meeting, position));
                 index = position;
                 notifyDataSetChanged();
             }

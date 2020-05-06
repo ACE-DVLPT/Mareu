@@ -39,7 +39,7 @@ import fr.ace.mareu.ui.fragments.PlaceFilterDialogFragment;
 import fr.ace.mareu.utils.di.DI;
 import fr.ace.mareu.model.Meeting;
 import fr.ace.mareu.ui.adapters.MeetingsRecyclerViewAdapter;
-import fr.ace.mareu.utils.events.DisplayMeetingMembersEvent;
+import fr.ace.mareu.utils.events.HighlightMeetingMembersEvent;
 import fr.ace.mareu.utils.events.DeleteMeetingEvent;
 
 /**
@@ -342,7 +342,7 @@ public class MeetingsListActivity extends AppCompatActivity
      * @param event
      */
     @Subscribe
-    public void onClickItemInRecyclerViewEvent(DisplayMeetingMembersEvent event){
+    public void onClickItemInRecyclerViewEvent(HighlightMeetingMembersEvent event){
         setMembersListOnTextView(event.mMeeting.getMembers(), mTextViewMembersList);
     }
 }

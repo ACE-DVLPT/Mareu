@@ -5,7 +5,7 @@ import fr.ace.mareu.model.Meeting;
 /**
  * Event fired when a user click on a meeting
  */
-public class DisplayMeetingMembersEvent {
+public class HighlightMeetingMembersEvent {
 
     /**
      * Meeting focused
@@ -17,7 +17,7 @@ public class DisplayMeetingMembersEvent {
      * Constructor
      * @param meeting
      */
-    public DisplayMeetingMembersEvent(Meeting meeting, int listPosition) {
+    public HighlightMeetingMembersEvent(Meeting meeting, int listPosition) {
         mMeeting = meeting;
         mListPosition = listPosition;
     }

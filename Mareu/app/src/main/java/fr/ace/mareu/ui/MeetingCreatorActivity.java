@@ -269,6 +269,9 @@ public class MeetingCreatorActivity
         String emailErrorMessage = "Adresse email non valide";
         String existingMemberErrorMessage = "Le membre est déjà existant";
         if (checkEmailStructure(email)) {
+            // remove all whitespace and pass all characters to lower case
+            email = email.replaceAll("\\s","");
+            email = email.toLowerCase();
             if (checkIfMemberAlreadyExist(email, mChipGroupEmail)){
                 Chip chip = new Chip(this);
                 chip.setText(email);
